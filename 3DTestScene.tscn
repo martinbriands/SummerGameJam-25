@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://citckpmilhuf8"]
+
+[ext_resource type="Texture2D" uid="uid://b3tyr5p63dwr7" path="res://icon.svg" id="1_vmg8u"]
+[ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://camera_controller.gd" id="2_xaahh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvpcy"]
+albedo_texture = ExtResource("1_vmg8u")
+
+[sub_resource type="SphereMesh" id="SphereMesh_3wrew"]
+material = SubResource("StandardMaterial3D_vvpcy")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vmg8u"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.25
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vmg8u"]
+albedo_color = Color(0.109804, 0.639216, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xaahh"]
+material = SubResource("StandardMaterial3D_vmg8u")
+
+[node name="3dTestScene" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(9.51057, 0, 3.09017, 0, 10, 0, -3.09017, 0, 9.51057, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+mesh = SubResource("SphereMesh_3wrew")
+
+[node name="Node3D" type="Node3D" parent="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.390788)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D/Node3D"]
+transform = Transform3D(-0.0174524, 0.999848, 4.37047e-08, 0, -4.37114e-08, 1, 0.999848, 0.0174524, 7.62871e-10, -0.390729, 0, -0.00682021)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D/Node3D"]
+transform = Transform3D(0.694658, 0.71934, 3.14433e-08, 0, -4.37114e-08, 1, 0.71934, -0.694658, -3.03645e-08, -0.28111, 0, 0.271464)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D/Node3D"]
+transform = Transform3D(0.945519, 0.325568, 1.4231e-08, 0, -4.37114e-08, 1, 0.325568, -0.945519, -4.13299e-08, -0.139566, 0, 0.40747)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D/Node3D"]
+transform = Transform3D(0.984808, 0.173648, 7.5904e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0914794, 0, 0.457545)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1.07, 0, 0, 0, 1.07, 0, 0, 0, 1.07, 0, 0, 0)
+mesh = SubResource("SphereMesh_xaahh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.20432)
+
+[node name="CameraArm" type="Node3D" parent="."]
+script = ExtResource("2_xaahh")
+rotationSpeed = 300.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.5)
