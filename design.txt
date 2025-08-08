@@ -1,0 +1,24 @@
+
+But du Jeu:
+Faire le monter le niveau de l'eau pour tuer tous les humains
+Raison narrative : La lune qui veut niquer la terre pour lui avoir plant/ un drapeau sur la face
+
+Regles du jeu:
+Le joueur peut faire monter le niveau de l'eau en detruisant les glacier (nord et sud)
+Pour cela le joueur doit cliquer avec sa souris sur les glacier ( a la Minecraft)
+Cela fait monter une gauge qui va faire mont/ le niveau petit a petit
+
+Setup: Le joueur peut tourner autour de la planette 
+En 3D avec le defilement souris qui tourne autour (google earth)
+
+Adversaire/Challenge
+Des humains apparaisse de plus en plus sur la terre ce qui reduit la niveau de l<eau
+Pour reduire leur impact on peut les tuer et creer des explostsunami lorsqu il sont proche des cotes
+On peut toucher les humain au meme niveau de strat (monter tu tout les dernier)
+Est ce que l on fait plusieurs type d<humain, pour aider sur le focus
+
+
+Possibilite de niveau de difficulte
+Resistance des glacier
+Nombre de continent sur la map
+
