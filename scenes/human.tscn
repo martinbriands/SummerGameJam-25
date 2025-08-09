@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dimwvd6o1dvak"]
+
+[ext_resource type="Texture2D" uid="uid://b3tyr5p63dwr7" path="res://icon.svg" id="1_swaxu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ol5e0"]
+albedo_texture = ExtResource("1_swaxu")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ktwfa"]
+material = SubResource("StandardMaterial3D_ol5e0")
+size = Vector2(0.1, 0.1)
+
+[node name="Human" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_ktwfa")

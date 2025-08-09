@@ -33,9 +33,9 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     var y = clampf(data.get_width() * (90 - lat) / 180, 0, 255)
         
     var color = data.get_pixel(x, y)
+    layer = color_to_enum(color)
     set_color(color)
     
-    layer = color_to_enum(color)
     
     if layer == layers.WHITE:
         current_health = max_health
@@ -48,6 +48,9 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
 func set_color(color: Color):
     var mesh = $Mesh as MeshInstance3D
     mesh.mesh.material.albedo_color = color
+    
+    if layer == layers.BLACK:
+        visible = false
     
 func color_to_enum(color: Color):
     #print(color)
@@ -68,6 +71,15 @@ func color_to_enum(color: Color):
         return layers.WHITE
     
     return layers.WHITE
+    
+var human: Node3D
+func spawn_human(humanNode: Node3D):
+    human = humanNode
+    add_child(human)
+    
+    human.look_at(parent_position)
+    human.position += (position - parent_position).normalized() * 0.025
+    
 
 var hovering: bool
 var pressed: bool
@@ -102,7 +114,7 @@ func tile_clicked():
         if current_health == 0:
             ice_scale = 0
             var earth = get_parent() as IcoSphere
-            earth.sea_level.rise()
+            earth.sea_level.destory_ice()
             set_color(Color.WHITE)
     
 func _process(delta):
@@ -113,6 +125,18 @@ func _process(delta):
         
         if current_health == 0 and ice_scale == 1:
             current_health = max_health
+
+func can_spawn_human():
+    var sea_level = (get_parent() as IcoSphere).sea_level.height
+    
+    if sea_level >= layer:
+        return false
+    
+    return layer != layers.BLACK and layer != layers.WHITE
+
+func sea_level_rise(sea_level):
+    if layer == layers.WHITE:
         
+    
         
         
