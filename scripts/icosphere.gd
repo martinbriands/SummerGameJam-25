@@ -1,7 +1,10 @@
 extends MeshInstance3D
 
+class_name IcoSphere
+
 @export var plate : PackedScene
 @export var heat_map: Sprite2D
+@export var sea_level: SeaLevel
 
 var hexagons: Array[Hexagon]
 

@@ -15,6 +15,10 @@ enum layers {
 
 var parent_position: Vector3
 
+var origin: Vector3
+var normal: Vector3
+var layer: layers
+
 func set_hexagon(parent: Node3D, pos: Vector3):
     position = pos
     look_at(parent.position)
@@ -27,17 +31,19 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     
     var x = clampf(data.get_height() * (180 + lng) / 360, 0, 255)
     var y = clampf(data.get_width() * (90 - lat) / 180, 0, 255)
-    
-    #print(Vector2(x, y), data.get_height())
-    
+        
     var color = data.get_pixel(x, y)
     set_color(color)
     
-    var layer = color_to_enum(color)
+    layer = color_to_enum(color)
     
-    #print(layer)
+    if layer == layers.WHITE:
+        current_health = max_health
     
-    position += layer * (position - parent_position).normalized() / 60
+    origin = position
+    normal = (origin - parent_position).normalized()
+    
+    position += layer * normal / 60
     
 func set_color(color: Color):
     var mesh = $Mesh as MeshInstance3D
@@ -66,19 +72,18 @@ func color_to_enum(color: Color):
 var hovering: bool
 var pressed: bool
 
-#func _on_static_body_3d_input_event(camera, event, event_position, normal, shape_idx):
-    #if event is InputEventMouseButton:
-        #if event.pressed:
-            #print("hexagon clicked")
-            #queue_free()
-            #
+var ice_scale: float = 1.0
+@export var ice_speed: float
+@export var max_health: int
+
+var current_health
+
 func _input(event):
     if hovering and event is InputEventMouseButton:
-        
         if event.pressed:
             pressed = true
         elif pressed:
-            queue_free()
+            tile_clicked()
 
 func _on_static_body_3d_mouse_entered():
     hovering = true
@@ -86,3 +91,28 @@ func _on_static_body_3d_mouse_entered():
 func _on_static_body_3d_mouse_exited():
     hovering = false
     pressed = false
+    
+func tile_clicked():
+    if layer == layers.WHITE and current_health != 0:
+        current_health = clampi(current_health - 1, 0, max_health)
+        
+        var value = (float(current_health) / max_health)
+        set_color(Color(value, value, value))
+        
+        if current_health == 0:
+            ice_scale = 0
+            var earth = get_parent() as IcoSphere
+            earth.sea_level.rise()
+            set_color(Color.WHITE)
+    
+func _process(delta):
+    if layer == layers.WHITE:
+        position = origin + layer * normal / 60 * ice_scale
+    
+        ice_scale = clampf(ice_scale + delta * ice_speed, 0, 1)
+        
+        if current_health == 0 and ice_scale == 1:
+            current_health = max_health
+        
+        
+        

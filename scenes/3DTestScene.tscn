@@ -1,12 +1,16 @@
-[gd_scene load_steps=9 format=4 uid="uid://citckpmilhuf8"]
+[gd_scene load_steps=13 format=4 uid="uid://citckpmilhuf8"]
 
 [ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
 [ext_resource type="PackedScene" uid="uid://dvfej0c3fm6r8" path="res://scenes/hexagon.tscn" id="3_4h3nn"]
 [ext_resource type="Script" uid="uid://c7g0ol87clb4n" path="res://Icosphere-Mesh-Godot-Plugin-4062dc405ed31553c0002a5c18718e30a167fc59/addons/icosphere/IcosphereMesh.gd" id="4_pxbar"]
 [ext_resource type="Script" uid="uid://c5sujqopcni8b" path="res://scripts/icosphere.gd" id="5_5rho8"]
 [ext_resource type="Texture2D" uid="uid://dkvcbww7qh4bn" path="res://assets/heatmap.png" id="5_pxbar"]
+[ext_resource type="Texture2D" uid="uid://lbrqf44mqrvn" path="res://assets/WaterPlain0012_1_350.jpg" id="6_4c1er"]
+[ext_resource type="Script" uid="uid://bisyov8c7llns" path="res://scripts/sea_level.gd" id="6_5rho8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c1er"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ktwfa"]
 _surfaces = [{
@@ -28,7 +32,14 @@ _uv_type = 0
 edge_count = 7
 metadata/_custom_type_script = "uid://c7g0ol87clb4n"
 
-[sub_resource type="BoxMesh" id="BoxMesh_pxbar"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktwfa"]
+albedo_texture = ExtResource("6_4c1er")
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0a4lp"]
+material = SubResource("StandardMaterial3D_ktwfa")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4c1er"]
 
 [node name="3dTestScene" type="Node3D"]
 
@@ -44,17 +55,24 @@ size = 13.651
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.20432)
 
-[node name="IcoSphere" type="MeshInstance3D" parent="." node_paths=PackedStringArray("heat_map")]
+[node name="IcoSphere" type="MeshInstance3D" parent="." node_paths=PackedStringArray("heat_map", "sea_level")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("ArrayMesh_ktwfa")
 skeleton = NodePath("")
 script = ExtResource("5_5rho8")
 plate = ExtResource("3_4h3nn")
 heat_map = NodePath("HeatMap")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="IcoSphere"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.488, 0)
-mesh = SubResource("BoxMesh_pxbar")
+sea_level = NodePath("SeaLevel")
 
 [node name="HeatMap" type="Sprite2D" parent="IcoSphere"]
 texture = ExtResource("5_pxbar")
+
+[node name="SeaLevel" type="MeshInstance3D" parent="IcoSphere"]
+mesh = SubResource("SphereMesh_0a4lp")
+script = ExtResource("6_5rho8")
+sea_level_change_speed = 1.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="IcoSphere/SeaLevel"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="IcoSphere/SeaLevel/StaticBody3D"]
+shape = SubResource("SphereShape3D_4c1er")
