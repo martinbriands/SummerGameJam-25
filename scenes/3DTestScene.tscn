@@ -1,0 +1,452 @@
+[gd_scene load_steps=14 format=4 uid="uid://citckpmilhuf8"]
+
+[ext_resource type="Script" uid="uid://odnvmcv568q2" path="res://scripts/planet_spawner.gd" id="2_4h3nn"]
+[ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
+[ext_resource type="PackedScene" uid="uid://dvfej0c3fm6r8" path="res://scenes/hexagon.tscn" id="3_4h3nn"]
+[ext_resource type="Script" uid="uid://c7g0ol87clb4n" path="res://Icosphere-Mesh-Godot-Plugin-4062dc405ed31553c0002a5c18718e30a167fc59/addons/icosphere/IcosphereMesh.gd" id="4_pxbar"]
+[ext_resource type="Script" uid="uid://c5sujqopcni8b" path="res://scripts/icosphere.gd" id="5_5rho8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c1er"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ktwfa"]
+_surfaces = [{
+"aabb": AABB(-0.497093, -0.5, -0.5, 0.994186, 1, 1),
+"attribute_data": PackedByteArray("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"),
+"format": 34359742487,
+"index_count": 2160,
+"index_data": PackedByteArray("ewEMAGoBDAANAGsBDABrAWoBEQAWABIADQAOABcADQAXAGsBawEXAGwBFgAYABIAEgAYABMADgAPABkADgAZABcAFwAZAG0BFwBtAWwBGAAaABsAGAAbABMAEwAbABQADwAQABwADwAcABkAGQAcAB0AGQAdAG0BbQEdAG4BGgAeABsAGwAeAB8AGwAfABQAFAAfABUAEAACACAAEAAgABwAHAAgACEAHAAhAB0AHQAhAG8BHQBvAW4BHgAiACMAHgAjAB8AHwAjACQAHwAkABUAFQAkAAQAcAFxASoAJQAmAC8AcQFyASoAKgByASsAJgAnADAAJgAwAC8AcgFzATEAcgExACsAKwAxACwAJwAoADIAJwAyADAAMAAyADMAcwF0ATEAMQB0ATQAMQA0ACwALAA0AC0AKAApADUAKAA1ADIAMgA1ADYAMgA2ADMAdAF1ATcAdAE3ADQANAA3ADgANAA4AC0ALQA4AC4AKQAEACQAKQAkADUANQAkACMANQAjADYANgAjACIAdQFvATcANwBvASEANwAhADgAOAAhACAAOAAgAC4ALgAgAAIABAApADkAKQAoAD4AKQA+ADkAOQA+ADoAKAAnAD8AKAA/AD4APgA/AEAAPgBAADoAOgBAADsAJwAmAEEAJwBBAD8APwBBAEIAPwBCAEAAQABCAEMAQABDADsAOwBDADwAJgAlAEQAJgBEAEEAQQBEAEUAQQBFAEIAQgBFAEYAQgBGAEMAQwBGAEcAQwBHADwAPABHAD0AJQADAEgAJQBIAEQARABIAEkARABJAEUARQBJAEoARQBKAEYARgBKAEsARgBLAEcARwBLAEwARwBMAD0APQBMAAUAfAFNAFIATQBOAFcATQBXAFIAUgBXAFMATgBPAFgATgBYAFcAVwBYAFkAVwBZAFMAUwBZAFQATwBQAFoATwBaAFgAWABaAFsAWABbAFkAWQBbAFwAWQBcAFQAVABcAFUAUABRAF0AUABdAFoAWgBdAF4AWgBeAFsAWwBeAF8AWwBfAFwAXABfAGAAXABgAFUAVQBgAFYAUQAFAEwAUQBMAF0AXQBMAEsAXQBLAF4AXgBLAEoAXgBKAF8AXwBKAEkAXwBJAGAAYABJAEgAYABIAFYAVgBIAAMAfQERAGEAEQASAGYAEQBmAGEAYQBmAGIAEgATAGcAEgBnAGYAZgBnAGgAZgBoAGIAYgBoAGMAEwAUAGkAEwBpAGcAZwBpAGoAZwBqAGgAaABqAGsAaABrAGMAYwBrAGQAFAAVAGwAFABsAGkAaQBsAG0AaQBtAGoAagBtAG4AagBuAGsAawBuAG8AawBvAGQAZABvAGUAFQAEAHAAFQBwAGwAbABwAHEAbABxAG0AbQBxAHIAbQByAG4AbgByAHMAbgBzAG8AbwBzAHQAbwB0AGUAZQB0AAYABQB1AD0AdQB2AHoAdQB6AD0APQB6ADwAdgB3AHsAdgB7AHoAegB7AHwAegB8ADwAPAB8ADsAdwB4AH0AdwB9AHsAewB9AH4AewB+AHwAfAB+AH8AfAB/ADsAOwB/ADoAeAB5AIAAeACAAH0AfQCAAIEAfQCBAH4AfgCBAIIAfgCCAH8AfwCCAIMAfwCDADoAOgCDADkAeQAGAHQAeQB0AIAAgAB0AHMAgABzAIEAgQBzAHIAgQByAIIAggByAHEAggBxAIMAgwBxAHAAgwBwADkAOQBwAAQABgB5AIQAeQB4AIkAeQCJAIQAhACJAIUAeAB3AIoAeACKAIkAiQCKAIsAiQCLAIUAhQCLAIYAdwB2AIwAdwCMAIoAigCMAI0AigCNAIsAiwCNAI4AiwCOAIYAhgCOAIcAdgB1AI8AdgCPAIwAjACPAJAAjACQAI0AjQCQAJEAjQCRAI4AjgCRAJIAjgCSAIcAhwCSAIgAdQAFAJMAdQCTAI8AjwCTAJQAjwCUAJAAkACUAJUAkACVAJEAkQCVAJYAkQCWAJIAkgCWAJcAkgCXAIgAiACXAAcAfgGYAE0AmACZAJ0AmACdAE0ATQCdAE4AmQCaAJ4AmQCeAJ0AnQCeAJ8AnQCfAE4ATgCfAE8AmgCbAKAAmgCgAJ4AngCgAKEAngChAJ8AnwChAKIAnwCiAE8ATwCiAFAAmwCcAKMAmwCjAKAAoACjAKQAoACkAKEAoQCkAKUAoQClAKIAogClAKYAogCmAFAAUACmAFEAnAAHAJcAnACXAKMAowCXAJYAowCWAKQApACWAJUApACVAKUApQCVAJQApQCUAKYApgCUAJMApgCTAFEAUQCTAAUAfwFhAKcAYQBiAKwAYQCsAKcApwCsAKgAYgBjAK0AYgCtAKwArACtAK4ArACuAKgAqACuAKkAYwBkAK8AYwCvAK0ArQCvALAArQCwAK4ArgCwALEArgCxAKkAqQCxAKoAZABlALIAZACyAK8ArwCyALMArwCzALAAsACzALQAsAC0ALEAsQC0ALUAsQC1AKoAqgC1AKsAZQAGALYAZQC2ALIAsgC2ALcAsgC3ALMAswC3ALgAswC4ALQAtAC4ALkAtAC5ALUAtQC5ALoAtQC6AKsAqwC6AAgABwC7AIgAuwC8AMAAuwDAAIgAiADAAIcAvAC9AMEAvADBAMAAwADBAMIAwADCAIcAhwDCAIYAvQC+AMMAvQDDAMEAwQDDAMQAwQDEAMIAwgDEAMUAwgDFAIYAhgDFAIUAvgC/AMYAvgDGAMMAwwDGAMcAwwDHAMQAxADHAMgAxADIAMUAxQDIAMkAxQDJAIUAhQDJAIQAvwAIALoAvwC6AMYAxgC6ALkAxgC5AMcAxwC5ALgAxwC4AMgAyAC4ALcAyAC3AMkAyQC3ALYAyQC2AIQAhAC2AAYACAC/AMoAvwC+AM8AvwDPAMoAygDPAMsAvgC9ANAAvgDQAM8AzwDQANEAzwDRAMsAywDRAMwAvQC8ANIAvQDSANAA0ADSANMA0ADTANEA0QDTANQA0QDUAMwAzADUAM0AvAC7ANUAvADVANIA0gDVANYA0gDWANMA0wDWANcA0wDXANQA1ADXANgA1ADYAM0AzQDYAM4AuwAHANkAuwDZANUA1QDZANoA1QDaANYA1gDaANsA1gDbANcA1wDbANwA1wDcANgA2ADcAN0A2ADdAM4AzgDdAAkAgAHeAJgA3gDfAOMA3gDjAJgAmADjAJkA3wDgAOQA3wDkAOMA4wDkAOUA4wDlAJkAmQDlAJoA4ADhAOYA4ADmAOQA5ADmAOcA5ADnAOUA5QDnAOgA5QDoAJoAmgDoAJsA4QDiAOkA4QDpAOYA5gDpAOoA5gDqAOcA5wDqAOsA5wDrAOgA6ADrAOwA6ADsAJsAmwDsAJwA4gAJAN0A4gDdAOkA6QDdANwA6QDcAOoA6gDcANsA6gDbAOsA6wDbANoA6wDaAOwA7ADaANkA7ADZAJwAnADZAAcAgQGnAO0ApwCoAPIApwDyAO0A7QDyAO4AqACpAPMAqADzAPIA8gDzAPQA8gD0AO4A7gD0AO8AqQCqAPUAqQD1APMA8wD1APYA8wD2APQA9AD2APcA9AD3AO8A7wD3APAAqgCrAPgAqgD4APUA9QD4APkA9QD5APYA9gD5APoA9gD6APcA9wD6APsA9wD7APAA8AD7APEAqwAIAPwAqwD8APgA+AD8AP0A+AD9APkA+QD9AP4A+QD+APoA+gD+AP8A+gD/APsA+wD/AAAB+wAAAfEA8QAAAQoACQABAc4AAQECAQYBAQEGAc4AzgAGAc0AAgEDAQcBAgEHAQYBBgEHAQgBBgEIAc0AzQAIAcwAAwEEAQkBAwEJAQcBBwEJAQoBBwEKAQgBCAEKAQsBCAELAcwAzAALAcsABAEFAQwBBAEMAQkBCQEMAQ0BCQENAQoBCgENAQ4BCgEOAQsBCwEOAQ8BCwEPAcsAywAPAcoABQEKAAABBQEAAQwBDAEAAf8ADAH/AA0BDQH/AP4ADQH+AA4BDgH+AP0ADgH9AA8BDwH9APwADwH8AMoAygD8AAgACgAFARABBQEEARUBBQEVARABEAEVAREBBAEDARYBBAEWARUBFQEWARcBFQEXAREBEQEXARIBAwECARgBAwEYARYBFgEYARkBFgEZARcBFwEZARoBFwEaARIBEgEaARMBAgEBARsBAgEbARgBGAEbARwBGAEcARkBGQEcAR0BGQEdARoBGgEdAR4BGgEeARMBEwEeARQBAQEJAB8BAQEfARsBGwEfASABGwEgARwBHAEgASEBHAEhAR0BHQEhASIBHQEiAR4BHgEiASMBHgEjARQBFAEjAQsAggEkAd4AJAElASkBJAEpAd4A3gApAd8AJQEmASoBJQEqASkBKQEqASsBKQErAd8A3wArAeAAJgEnASwBJgEsASoBKgEsAS0BKgEtASsBKwEtAS4BKwEuAeAA4AAuAeEAJwEoAS8BJwEvASwBLAEvATABLAEwAS0BLQEwATEBLQExAS4BLgExATIBLgEyAeEA4QAyAeIAKAELACMBKAEjAS8BLwEjASIBLwEiATABMAEiASEBMAEhATEBMQEhASABMQEgATIBMgEgAR8BMgEfAeIA4gAfAQkAgwHtAAwA7QDuADMB7QAzAQwADAAzAQ0A7gDvADQB7gA0ATMBMwE0ATUBMwE1AQ0ADQA1AQ4A7wDwADYB7wA2ATQBNAE2ATcBNAE3ATUBNQE3ATgBNQE4AQ4ADgA4AQ8A8ADxADkB8AA5ATYBNgE5AToBNgE6ATcBNwE6ATsBNwE7ATgBOAE7ATwBOAE8AQ8ADwA8ARAA8QAKAD0B8QA9ATkBOQE9AT4BOQE+AToBOgE+AT8BOgE/ATsBOwE/AUABOwFAATwBPAFAAUEBPAFBARAAEABBAQIACwBCARQBQgFDAUcBQgFHARQBFAFHARMBQwFEAUgBQwFIAUcBRwFIAUkBRwFJARMBEwFJARIBRAFFAUoBRAFKAUgBSAFKAUsBSAFLAUkBSQFLAUwBSQFMARIBEgFMAREBRQFGAU0BRQFNAUoBSgFNAU4BSgFOAUsBSwFOAU8BSwFPAUwBTAFPAVABTAFQAREBEQFQARABRgECAEEBRgFBAU0BTQFBAUABTQFAAU4BTgFAAT8BTgE/AU8BTwE/AT4BTwE+AVABUAE+AT0BUAE9ARABEAE9AQoAAgBGAS4ARgFFAVEBRgFRAS4ALgBRAS0ARQFEAVIBRQFSAVEBUQFSAVMBUQFTAS0ALQBTASwARAFDAVQBRAFUAVIBUgFUAVUBUgFVAVMBUwFVAVYBUwFWASwALABWASsAQwFCAVcBQwFXAVQBVAFXAVgBVAFYAVUBVQFYAVkBVQFZAVYBVgFZAVoBVgFaASsAKwBaASoAQgELAFsBQgFbAVcBVwFbAVwBVwFcAVgBWAFcAV0BWAFdAVkBWQFdAV4BWQFeAVoBWgFeAV8BWgFfASoAKgBfAXABhAF2ASQBdgF3AWABdgFgASQBJAFgASUBdwF4AWEBdwFhAWABYAFhAWIBYAFiASUBJQFiASYBeAF5AWMBeAFjAWEBYQFjAWQBYQFkAWIBYgFkAWUBYgFlASYBJgFlAScBeQF6AWYBeQFmAWMBYwFmAWcBYwFnAWQBZAFnAWgBZAFoAWUBZQFoAWkBZQFpAScBJwFpASgBegFwAV8BegFfAWYBZgFfAV4BZgFeAWcBZwFeAV0BZwFdAWgBaAFdAVwBaAFcAWkBaQFcAVsBaQFbASgBKAFbAQsA"),
+"material": SubResource("StandardMaterial3D_4c1er"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 389,
+"vertex_data": PackedByteArray("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")
+}]
+script = ExtResource("4_pxbar")
+radius = 0.5
+heigth = 1.0
+_uv_type = 0
+edge_count = 6
+metadata/_custom_type_script = "uid://c7g0ol87clb4n"
+
+[sub_resource type="BoxMesh" id="BoxMesh_pxbar"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a71sl"]
+albedo_color = Color(0.341176, 0.258824, 0.145098, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qwig0"]
+material = SubResource("StandardMaterial3D_a71sl")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vmg8u"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.01
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4h3nn"]
+albedo_color = Color(0.101961, 0.631373, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_pxbar"]
+material = SubResource("StandardMaterial3D_4h3nn")
+
+[node name="3dTestScene" type="Node3D"]
+
+[node name="CameraArm" type="Node3D" parent="."]
+script = ExtResource("2_a71sl")
+rotationSpeed = 300.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.5)
+projection = 1
+size = 13.651
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.20432)
+
+[node name="IcoSphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("ArrayMesh_ktwfa")
+skeleton = NodePath("../Planet")
+script = ExtResource("5_5rho8")
+Plate = ExtResource("3_4h3nn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="IcoSphere"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.438595, 0)
+mesh = SubResource("BoxMesh_pxbar")
+
+[node name="Planet" type="Node3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+visible = false
+script = ExtResource("2_4h3nn")
+Bullet = ExtResource("3_4h3nn")
+
+[node name="Earth" type="MeshInstance3D" parent="Planet"]
+mesh = SubResource("SphereMesh_qwig0")
+
+[node name="Node3D" type="Node3D" parent="Planet"]
+visible = false
+
+[node name="TileParent" type="Node3D" parent="Planet/Node3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.5)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939693, -4.10753e-08, -0.17101, 0, 0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, -0.866025, -3.78552e-08, -0.25, 0, 0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, -0.766044, -3.34849e-08, -0.321394, 0, 0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, -0.642788, -2.80971e-08, -0.383022, 0, 0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, -0.5, -2.18557e-08, -0.433013, 0, 0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, 0.34202, 1.49502e-08, -0.469846, 0, -0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, 0.642788, 2.80971e-08, -0.383022, 0, -0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, -0.173648, -7.59041e-09, -0.492404, 0, 0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-9.13951e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 9.13951e-08, 1.91069e-15, -0.5, 0, -4.56975e-08)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, 0.939693, 4.10753e-08, -0.17101, 0, -0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, 0.766044, 3.34849e-08, -0.321394, 0, -0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, 0.173648, 7.59041e-09, -0.492404, 0, -0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, 0.5, 2.18557e-08, -0.433013, 0, -0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, 0.984808, 4.30473e-08, -0.0868241, 0, -0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, 0.866025, 3.78552e-08, -0.25, 0, -0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D19" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(-1, -1.35106e-07, -3.82137e-15, 0, -4.37114e-08, 1, -1.35106e-07, 1, 4.37114e-08, 6.75532e-08, 0, -0.5)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Planet/Node3D/TileParent"]
+transform = Transform3D(0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, -0.34202, -1.49502e-08, -0.469846, 0, 0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="TileParent2" type="Node3D" parent="Planet/Node3D"]
+transform = Transform3D(1, -8.74228e-08, 8.74228e-08, -8.74228e-08, -1, -7.64274e-15, 8.74228e-08, 0, -1, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939693, -4.10753e-08, -0.17101, 0, 0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, -0.866025, -3.78552e-08, -0.25, 0, 0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, -0.766044, -3.34849e-08, -0.321394, 0, 0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, -0.642788, -2.80971e-08, -0.383022, 0, 0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, -0.5, -2.18557e-08, -0.433013, 0, 0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, 0.34202, 1.49502e-08, -0.469846, 0, -0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, 0.642788, 2.80971e-08, -0.383022, 0, -0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, -0.173648, -7.59041e-09, -0.492404, 0, 0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-9.13951e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 9.13951e-08, 1.91069e-15, -0.5, 0, -4.56975e-08)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, 0.939693, 4.10753e-08, -0.17101, 0, -0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, 0.766044, 3.34849e-08, -0.321394, 0, -0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, 0.173648, 7.59041e-09, -0.492404, 0, -0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, 0.5, 2.18557e-08, -0.433013, 0, -0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, 0.984808, 4.30473e-08, -0.0868241, 0, -0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(-0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, 0.866025, 3.78552e-08, -0.25, 0, -0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Planet/Node3D/TileParent2"]
+transform = Transform3D(0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, -0.34202, -1.49502e-08, -0.469846, 0, 0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="TileParent3" type="Node3D" parent="Planet/Node3D"]
+transform = Transform3D(0.504784, -0.863246, 4.41296e-08, -0.863246, -0.504784, -7.54673e-08, 8.74228e-08, -6.77626e-22, -1, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939693, -4.10753e-08, -0.17101, 0, 0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, -0.866025, -3.78552e-08, -0.25, 0, 0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, -0.766044, -3.34849e-08, -0.321394, 0, 0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, -0.642788, -2.80971e-08, -0.383022, 0, 0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, -0.5, -2.18557e-08, -0.433013, 0, 0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, 0.34202, 1.49502e-08, -0.469846, 0, -0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, 0.642788, 2.80971e-08, -0.383022, 0, -0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, -0.173648, -7.59041e-09, -0.492404, 0, 0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-9.13951e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 9.13951e-08, 1.91069e-15, -0.5, 0, -4.56975e-08)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, 0.939693, 4.10753e-08, -0.17101, 0, -0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, 0.766044, 3.34849e-08, -0.321394, 0, -0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, 0.173648, 7.59041e-09, -0.492404, 0, -0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, 0.5, 2.18557e-08, -0.433013, 0, -0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, 0.984808, 4.30473e-08, -0.0868241, 0, -0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(-0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, 0.866025, 3.78552e-08, -0.25, 0, -0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Planet/Node3D/TileParent3"]
+transform = Transform3D(0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, -0.34202, -1.49502e-08, -0.469846, 0, 0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="TileParent4" type="Node3D" parent="Planet/Node3D"]
+transform = Transform3D(-0.495201, -0.868778, -4.32918e-08, -0.868778, 0.495201, -7.5951e-08, 8.74228e-08, -6.77626e-22, -1, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939693, -4.10753e-08, -0.17101, 0, 0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, -0.866025, -3.78552e-08, -0.25, 0, 0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, -0.766044, -3.34849e-08, -0.321394, 0, 0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, -0.642788, -2.80971e-08, -0.383022, 0, 0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, -0.5, -2.18557e-08, -0.433013, 0, 0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, 0.34202, 1.49502e-08, -0.469846, 0, -0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.642788, 0.766044, 3.34849e-08, 0, -4.37114e-08, 1, 0.766044, 0.642788, 2.80971e-08, -0.383022, 0, -0.321394)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, -0.173648, -7.59041e-09, -0.492404, 0, 0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-9.13951e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 9.13951e-08, 1.91069e-15, -0.5, 0, -4.56975e-08)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, 0.939693, 4.10753e-08, -0.17101, 0, -0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.766044, 0.642788, 2.80971e-08, 0, -4.37114e-08, 1, 0.642788, 0.766044, 3.34849e-08, -0.321394, 0, -0.383022)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.173648, 0.984808, 4.30473e-08, 0, -4.37114e-08, 1, 0.984808, 0.173648, 7.59041e-09, -0.492404, 0, -0.0868241)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.5, 0.866025, 3.78552e-08, 0, -4.37114e-08, 1, 0.866025, 0.5, 2.18557e-08, -0.433013, 0, -0.25)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.984808, 0.173648, 7.59041e-09, 0, -4.37114e-08, 1, 0.173648, 0.984808, 4.30473e-08, -0.0868241, 0, -0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(-0.866025, 0.5, 2.18557e-08, 0, -4.37114e-08, 1, 0.5, 0.866025, 3.78552e-08, -0.25, 0, -0.433013)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Planet/Node3D/TileParent4"]
+transform = Transform3D(0.34202, 0.939693, 4.10753e-08, 0, -4.37114e-08, 1, 0.939693, -0.34202, -1.49502e-08, -0.469846, 0, 0.17101)
+mesh = SubResource("CylinderMesh_vmg8u")
+
+[node name="TileParent5" type="Node3D" parent="Planet/Node3D"]
+transform = Transform3D(-1, 2.59973e-08, 8.34678e-08, 0, 0.954761, -0.297375, -8.74228e-08, -0.297375, -0.954761, 0, 0, 0)
+visible = false
+
+[node name="Water" type="MeshInstance3D" parent="Planet"]
+mesh = SubResource("SphereMesh_pxbar")
+
+[node name="Parent" type="Node3D" parent="Planet"]
+visible = false
+
+[node name="Hexagon" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(1, 4.76837e-08, 0, 0, -4.37114e-08, 1, 4.76837e-08, -1, -4.37114e-08, -2.38418e-08, 0, 0.5)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon2" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.984808, -0.173648, -7.5904e-09, 0, -4.37114e-08, 1, -0.173648, -0.984808, -4.30473e-08, 0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon3" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.984808, 0.173648, 7.5904e-09, 0, -4.37114e-08, 1, 0.173648, -0.984808, -4.30473e-08, -0.0868241, 0, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon4" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.492404, 0.0868241, -0.866025, 0.852869, 0.150384, 0.5, 0.173648, -0.984808, -3.8279e-08, -0.0434121, -0.0751919, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon5" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.492404, -0.086824, -0.866025, 0.852869, -0.150384, 0.5, -0.173648, -0.984808, -4.78157e-08, 0.043412, 0.0751919, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon6" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.492404, -0.0868241, 0.866025, -0.852869, 0.150384, 0.5, -0.173648, -0.984808, -3.8279e-08, 0.043412, -0.0751919, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon7" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.492404, 0.0868241, 0.866025, -0.852869, -0.150384, 0.5, 0.173648, -0.984808, -4.78157e-08, -0.0434121, 0.0751919, 0.492404)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon8" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.939693, -0.34202, -1.49502e-08, 0, -4.37114e-08, 1, -0.34202, -0.939693, -4.10753e-08, 0.17101, 0, 0.469846)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon10" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.522099, -0.255236, -0.813798, 0.852869, 0.150384, 0.5, -0.00523604, -0.955112, 0.296198, 0.127618, -0.0751919, 0.477556)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon11" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.403317, -0.418412, -0.813798, 0.852869, -0.150384, 0.5, -0.331588, -0.895721, 0.296198, 0.209206, 0.0751919, 0.447861)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon12" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.403317, -0.418412, 0.813798, -0.852869, 0.150384, 0.5, -0.331588, -0.895721, -0.296198, 0.209206, -0.0751919, 0.447861)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")
+
+[node name="Hexagon13" type="MeshInstance3D" parent="Planet/Parent"]
+transform = Transform3D(0.522099, -0.255236, 0.813798, -0.852869, -0.150384, 0.5, -0.00523604, -0.955112, -0.296198, 0.127618, 0.0751919, 0.477556)
+mesh = SubResource("CylinderMesh_vmg8u")
+skeleton = NodePath("../../../../../../../../../../../../../../../../../../../../../../../Node3D/TileParent")

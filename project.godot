@@ -11,6 +11,11 @@ config_version=5
 [application]
 
 config/name="SummerGameJam25"
-run/main_scene="uid://3gnww60ejsbm"
+run/main_scene="uid://citckpmilhuf8"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="mobile"

@@ -14,10 +14,10 @@ func _input(event):
             isClicking = true
         else:
             isClicking = false
-        print("Mouse Click/Unclick at: ", event.position)
+        #print("Mouse Click/Unclick at: ", event.position)
     elif event is InputEventMouseMotion:
         if isClicking:
-            print("Mouse Motion at: ", event.position)
+            #print("Mouse Motion at: ", event.position)
             
             if points.is_empty():
                 points.push_front(event.position)
@@ -26,8 +26,8 @@ func _input(event):
                 points.pop_back()
                 points.push_front(event.position)
                 line2D.points = points
-            else:
-                print("Mouse Motion at: ", points.back().distance_to(event.position))
+            #else:
+                #print("Mouse Motion at: ", points.back().distance_to(event.position))
 
                 
         

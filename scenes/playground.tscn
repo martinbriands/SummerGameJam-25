@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://3gnww60ejsbm"]
 
-[ext_resource type="Script" uid="uid://phejwl4yy32p" path="res://input_controller.gd" id="1_rupst"]
+[ext_resource type="Script" uid="uid://phejwl4yy32p" path="res://scripts/input_controller.gd" id="1_hddm4"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="InputController" type="Node2D" parent="." node_paths=PackedStringArray("line2D")]
-script = ExtResource("1_rupst")
+script = ExtResource("1_hddm4")
 line2D = NodePath("Line2D")
 
 [node name="Line2D" type="Line2D" parent="InputController"]
