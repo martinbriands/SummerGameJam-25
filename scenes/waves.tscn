@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://b2tas0t0yvtob"]
+
+[ext_resource type="Material" uid="uid://bh61s303ftgj0" path="res://materials/waves.tres" id="1_gamc8"]
+[ext_resource type="Shader" uid="uid://difjv3cafqu0t" path="res://materials/shockwave2.gdshader" id="2_ntrpo"]
+[ext_resource type="Script" uid="uid://5ei48cdjkrkm" path="res://scripts/click_impulse.gd" id="2_ygl0c"]
+[ext_resource type="Texture2D" uid="uid://kvang0u7cbgc" path="res://assets/rainbow.png" id="3_56rt2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_qjwlc"]
+material = ExtResource("1_gamc8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_56rt2"]
+render_priority = 0
+shader = ExtResource("2_ntrpo")
+shader_parameter/SCREEN_TEXTURE = ExtResource("3_56rt2")
+shader_parameter/texture_scale = Vector2(10, 10)
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/center_3D = Vector3(-0.31, 0.179, 0.349)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gamc8"]
+material = SubResource("ShaderMaterial_56rt2")
+radial_segments = 32
+
+[sub_resource type="SphereMesh" id="SphereMesh_ygl0c"]
+radius = 0.1
+height = 0.2
+
+[node name="Waves" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.786623, 0, 0.617434, 0, 1, 0, -0.617434, 0, 0.786623, 0.796359, 0, 0.918737)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(-0.813598, 0, -0.581427, 0, 1, 0, 0.581427, 0, -0.813598, 0, 0, 0)
+light_energy = 0.5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_qjwlc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("SphereMesh_gamc8")
+script = ExtResource("2_ygl0c")
+metadata/_edit_group_ = true
+
+[node name="Moon2" type="MeshInstance3D" parent="MeshInstance3D2"]
+transform = Transform3D(0.0748453, 0.0175351, -0.0639586, -0.0466255, 0.0824961, -0.0319445, 0.0471618, 0.05373, 0.0699203, 0.374227, -0.233128, 0.235809)
+mesh = SubResource("SphereMesh_ygl0c")
+
+[node name="Moon" type="MeshInstance3D" parent="MeshInstance3D2"]
+transform = Transform3D(-0.06198, 0.0669833, -0.0408866, 0.0358014, 0.0704979, 0.0612233, 0.0698337, 0.0233082, -0.0676756, -0.3099, 0.179007, 0.349168)
+mesh = SubResource("SphereMesh_ygl0c")

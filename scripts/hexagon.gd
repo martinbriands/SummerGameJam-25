@@ -19,6 +19,8 @@ var origin: Vector3
 var normal: Vector3
 var layer: layers
 
+@export var gradient: Gradient
+
 func set_hexagon(parent: Node3D, pos: Vector3):
     position = pos
     look_at(parent.position)
@@ -46,11 +48,18 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     position += layer * normal / 60
     
 func set_color(color: Color):
-    var mesh = $Mesh as MeshInstance3D
-    mesh.mesh.material.albedo_color = color
-    
     if layer == layers.BLACK:
         visible = false
+        pass
+        
+    var mesh = $Mesh as MeshInstance3D
+
+    if layer == layers.WHITE:
+        color = color
+    else:
+        color = gradient.sample((float(layer) - 1) / layers.size())
+    
+    mesh.mesh.material.albedo_color = color
     
 func color_to_enum(color: Color):
     #print(color)
@@ -78,8 +87,7 @@ func spawn_human(humanNode: Node3D):
     add_child(human)
     
     human.look_at(parent_position)
-    human.position += (position - parent_position).normalized() * 0.025
-    
+    #human.position += get_global_transform_interpolated().basis.z.normalized() * 0.025
 
 var hovering: bool
 var pressed: bool
@@ -133,9 +141,7 @@ func can_spawn_human():
         return false
     
     return layer != layers.BLACK and layer != layers.WHITE
-
-func sea_level_rise(sea_level):
-    if layer == layers.WHITE:
+        
         
     
         

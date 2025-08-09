@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bh61s303ftgj0"]
+
+[ext_resource type="Shader" uid="uid://f0ycpvm7cr5o" path="res://materials/waves.gdshader" id="1_cxc0s"]
+[ext_resource type="Texture2D" uid="uid://lbrqf44mqrvn" path="res://assets/WaterPlain0012_1_350.jpg" id="2_pd6ao"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ygl0c"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ntrpo"]
+noise = SubResource("FastNoiseLite_ygl0c")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cxc0s")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_ntrpo")
+shader_parameter/bubble_color = Vector4(1, 1, 1, 1)
+shader_parameter/height_multiplier = 0.01
+shader_parameter/noise_sample_size = 1.0
+shader_parameter/animation_speed = 0.1
+shader_parameter/texturemap = ExtResource("2_pd6ao")
+shader_parameter/texture_scale = Vector2(8, 4)
