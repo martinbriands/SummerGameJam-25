@@ -10,11 +10,11 @@ func _ready():
         add_child(b)
         b.position = face
         b.look_at(position)
-        b.position += randi_range(0, 6) * (b.position - position).normalized() / 200
+        b.position += randi_range(0, 6) * (b.position - position).normalized() / 50
         
         #print(b.position.y)
         
-        if (b.position.y > 0.4) or (b.position.y < -0.4):
+        if (b.position.y > 0.5) or (b.position.y < -0.5):
             print("we should change color")
             var s = b as Hexagon
             s.set_color(Color(1,1,1,1))
