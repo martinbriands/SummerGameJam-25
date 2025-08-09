@@ -12,10 +12,8 @@ func _input(event):
             previousMousePos = event.position
         else:
             isClicking = false
-        #print("Mouse Click/Unclick at: ", event.position)
     elif event is InputEventMouseMotion:
         if isClicking:
-            #print("Mouse Motion at: ", event.position)
             var delta = previousMousePos - event.position
             
             delta = delta / rotationSpeed
