@@ -3,6 +3,8 @@ shader_type spatial;
 uniform sampler2D SCREEN_TEXTURE;
 uniform vec2 texture_scale = vec2(1.0, 1.0);
 
+uniform sampler2D ring;
+
 uniform vec2 center = vec2(0.91663348633318, 0.25392402266552);
 
 uniform vec3 center_3D = vec3(-0.31, 0.179, 0.349);
@@ -18,9 +20,9 @@ void vertex() {
     vec3 dist = center_3D - VERTEX; 
     float magnitude = sqrt(pow(dist.x, 2) + pow(dist.y, 2) + pow(dist.z, 2));
     
-    if (magnitude < 0.1)
+    if (magnitude <= 0.1)
     {
-        scalar = (sin(TIME * 10.0) + 1.0) * 0.1;
+        scalar = (sin(TIME * 10.0) + 1.0) * 0.01;
     }
     
     VERTEX += NORMAL * scalar;
