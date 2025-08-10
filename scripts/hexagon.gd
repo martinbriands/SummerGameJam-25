@@ -123,10 +123,8 @@ func tile_clicked():
             set_color(Color.WHITE)
     
     var sea_level = (get_parent() as IcoSphere).sea_level
-    print(sea_level.height, " ", layer)
 
     if sea_level.height >= layer:
-        print("clicked ", position)
         sea_level.on_water_clicked(position, parent_position)
     
 func _process(delta):
