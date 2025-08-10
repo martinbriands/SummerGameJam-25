@@ -18,3 +18,4 @@ shader_parameter/noise_sample_size = 1.0
 shader_parameter/animation_speed = 0.1
 shader_parameter/texturemap = ExtResource("2_pd6ao")
 shader_parameter/texture_scale = Vector2(8, 4)
+shader_parameter/impulse_position = Vector2(0, 0)

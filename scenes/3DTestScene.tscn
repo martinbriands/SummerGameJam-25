@@ -1,14 +1,14 @@
 [gd_scene load_steps=17 format=4 uid="uid://citckpmilhuf8"]
 
 [ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
-[ext_resource type="Script" uid="uid://mb1cswm1luhe" path="res://scripts/sunlight.gd" id="2_ktwfa"]
+[ext_resource type="Script" path="res://scripts/sunlight.gd" id="2_ktwfa"]
 [ext_resource type="PackedScene" uid="uid://dvfej0c3fm6r8" path="res://scenes/hexagon.tscn" id="3_4h3nn"]
 [ext_resource type="Script" uid="uid://c7g0ol87clb4n" path="res://Icosphere-Mesh-Godot-Plugin-4062dc405ed31553c0002a5c18718e30a167fc59/addons/icosphere/IcosphereMesh.gd" id="4_pxbar"]
 [ext_resource type="Script" uid="uid://c5sujqopcni8b" path="res://scripts/icosphere.gd" id="5_5rho8"]
 [ext_resource type="Texture2D" uid="uid://dkvcbww7qh4bn" path="res://assets/heatmap.png" id="5_pxbar"]
 [ext_resource type="PackedScene" uid="uid://dimwvd6o1dvak" path="res://scenes/human.tscn" id="6_0a4lp"]
 [ext_resource type="Script" uid="uid://bisyov8c7llns" path="res://scripts/sea_level.gd" id="6_5rho8"]
-[ext_resource type="Material" uid="uid://bh61s303ftgj0" path="res://materials/waves.tres" id="8_0a4lp"]
+[ext_resource type="Material" uid="uid://dtwvmn5k7fss1" path="res://materials/shockwave2.tres" id="8_0a4lp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0a4lp"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -97,8 +97,10 @@ mesh = SubResource("SphereMesh_ol5e0")
 script = ExtResource("6_5rho8")
 sea_level_change_speed = 1.0
 sub_height_max = 3
+shockwave_intensity = 1.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="IcoSphere/SeaLevel"]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="IcoSphere/SeaLevel/StaticBody3D"]
 shape = SubResource("SphereShape3D_4c1er")
