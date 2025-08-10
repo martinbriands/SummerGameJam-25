@@ -4,7 +4,7 @@ class_name Hexagon
 #func _ready() -> void:
 
 enum layers {
-    BLACK = 0,
+    BLACK = -1,
     BLUE = 1,
     AQUA = 2,
     GREEN = 3,
@@ -38,7 +38,6 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     layer = color_to_enum(color)
     set_color(color)
     
-    
     if layer == layers.WHITE:
         current_health = max_health
     
@@ -48,13 +47,11 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     position += layer * normal / 60
     
 func set_color(color: Color):
-    if layer == layers.BLACK:
-        visible = false
-        pass
-        
     var mesh = $Mesh as MeshInstance3D
 
     if layer == layers.WHITE:
+        color = color
+    elif layer == layers.BLACK:
         color = color
     else:
         color = gradient.sample((float(layer) - 1) / layers.size())
@@ -124,6 +121,13 @@ func tile_clicked():
             var earth = get_parent() as IcoSphere
             earth.sea_level.destory_ice()
             set_color(Color.WHITE)
+    
+    var sea_level = (get_parent() as IcoSphere).sea_level
+    print(sea_level.height, " ", layer)
+
+    if sea_level.height >= layer:
+        print("clicked ", position)
+        sea_level.on_water_clicked(position, parent_position)
     
 func _process(delta):
     if layer == layers.WHITE:

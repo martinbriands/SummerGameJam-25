@@ -2,6 +2,8 @@ extends MeshInstance3D
 
 var moon
 
+@export var curve: Curve
+
 func _ready():
     moon = $Moon
     

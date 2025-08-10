@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dtwvmn5k7fss1"]
+
+[ext_resource type="Shader" uid="uid://difjv3cafqu0t" path="res://materials/shockwave2.gdshader" id="1_bcvnt"]
+[ext_resource type="Texture2D" uid="uid://djh5j17lhiveq" path="res://assets/water2.jpg" id="2_sxexm"]
+
+[sub_resource type="Curve" id="Curve_sxexm"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.502994, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_87y0e"]
+curve = SubResource("Curve_sxexm")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_bcvnt")
+shader_parameter/SCREEN_TEXTURE = ExtResource("2_sxexm")
+shader_parameter/texture_scale = Vector2(8, 4)
+shader_parameter/center_3D = Vector3(-0.31, 0.179, 0.349)
+shader_parameter/intensity = 0.0
+shader_parameter/time = 0.0
+shader_parameter/wave_height = 0.2
+shader_parameter/curve_texture = SubResource("CurveTexture_87y0e")
+shader_parameter/scroll_speed = Vector2(0.1, 0)

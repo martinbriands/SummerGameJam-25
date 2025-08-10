@@ -42,6 +42,7 @@ func set_sea_level():
     
     t = 0
     
+var time: float
 func _process(delta):
     if t < sea_level_change_speed:
         t = clampf(t + delta, 0, sea_level_change_speed)
@@ -51,8 +52,37 @@ func _process(delta):
         
         if t == sea_level_change_speed:
             sea_level_rise.emit(height)
+            
+    if intensity_timer < intensity_timer_max:
+        intensity_timer = clampf(intensity_timer + delta, 0, intensity_timer_max)
+        
+        shockwave_intensity_value = intensity_curve.sample(intensity_timer) * shockwave_intensity
+        mesh.material.set_shader_parameter("intensity", shockwave_intensity_value)
+
+    
+    #if shockwave_intensity_value > 0:
+        #shockwave_intensity_value = clampf(shockwave_intensity_value - delta, 0, shockwave_intensity)
+        #mesh.material.set_shader_parameter("intensity", shockwave_intensity_value)
+        
+    time += delta
+    mesh.material.set_shader_parameter("time", time)
     
 signal sea_level_rise(height: int)
+
+var shockwave_intensity_value: float = 0
+@export var shockwave_intensity: float
+var intensity_timer: float = 0
+var intensity_timer_max: float = 1
+@export var intensity_curve: Curve
+
+func on_water_clicked(tile_pos: Vector3, earth_center: Vector3):
+    intensity_timer = 0
+    #shockwave_intensity_value = shockwave_intensity
+    time = -0.4
+    
+    mesh.material.set_shader_parameter("center_3D", tile_pos)
+    mesh.material.set_shader_parameter("intensity", shockwave_intensity_value)
+    mesh.material.set_shader_parameter("time", time)
     
     
     

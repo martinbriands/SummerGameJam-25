@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://citckpmilhuf8"]
+[gd_scene load_steps=18 format=4 uid="uid://citckpmilhuf8"]
 
 [ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
 [ext_resource type="Script" path="res://scripts/sunlight.gd" id="2_ktwfa"]
@@ -55,6 +55,10 @@ metadata/_custom_type_script = "uid://c7g0ol87clb4n"
 [sub_resource type="SphereMesh" id="SphereMesh_ol5e0"]
 material = ExtResource("8_0a4lp")
 
+[sub_resource type="Curve" id="Curve_0a4lp"]
+_data = [Vector2(0.0037244, 0), 0.0, 0.0, 0, 0, Vector2(0.499069, 0.995517), 0.0, 0.0, 0, 0, Vector2(0.998138, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_4c1er"]
 
 [node name="3dTestScene" type="Node3D"]
@@ -98,6 +102,7 @@ script = ExtResource("6_5rho8")
 sea_level_change_speed = 1.0
 sub_height_max = 3
 shockwave_intensity = 1.0
+intensity_curve = SubResource("Curve_0a4lp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="IcoSphere/SeaLevel"]
 visible = false

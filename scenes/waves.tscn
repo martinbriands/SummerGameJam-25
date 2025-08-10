@@ -1,22 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2tas0t0yvtob"]
+[gd_scene load_steps=11 format=3 uid="uid://dvs5t3p1j4wlg"]
 
 [ext_resource type="Material" uid="uid://bh61s303ftgj0" path="res://materials/waves.tres" id="1_gamc8"]
 [ext_resource type="Shader" uid="uid://difjv3cafqu0t" path="res://materials/shockwave2.gdshader" id="2_ntrpo"]
 [ext_resource type="Script" uid="uid://5ei48cdjkrkm" path="res://scripts/click_impulse.gd" id="2_ygl0c"]
 [ext_resource type="Texture2D" uid="uid://kvang0u7cbgc" path="res://assets/rainbow.png" id="3_56rt2"]
-[ext_resource type="Texture2D" uid="uid://bsltw51dlko5g" path="res://assets/ring.png" id="4_xmytd"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_qjwlc"]
 material = ExtResource("1_gamc8")
+
+[sub_resource type="Curve" id="Curve_xmytd"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.499002, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mgkec"]
+curve = SubResource("Curve_xmytd")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_56rt2"]
 render_priority = 0
 shader = ExtResource("2_ntrpo")
 shader_parameter/SCREEN_TEXTURE = ExtResource("3_56rt2")
 shader_parameter/texture_scale = Vector2(10, 10)
-shader_parameter/ring = ExtResource("4_xmytd")
-shader_parameter/center = Vector2(0.5, 0.5)
 shader_parameter/center_3D = Vector3(-0.31, 0.179, 0.349)
+shader_parameter/intensity = 1.0
+shader_parameter/time = 0.0
+shader_parameter/wave_height = 0.2
+shader_parameter/curve_texture = SubResource("CurveTexture_mgkec")
+shader_parameter/scroll_speed = Vector2(0, 0)
 
 [sub_resource type="SphereMesh" id="SphereMesh_gamc8"]
 material = SubResource("ShaderMaterial_56rt2")
@@ -42,7 +51,6 @@ visible = false
 mesh = SubResource("SphereMesh_qjwlc")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("SphereMesh_gamc8")
 script = ExtResource("2_ygl0c")
 metadata/_edit_group_ = true
