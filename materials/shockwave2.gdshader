@@ -21,31 +21,31 @@ varying float height;
 void vertex() {
 	// Called for every vertex the material is visible on.
     float scalar = 0.0;
-    
-    vec3 dist = center_3D - VERTEX; 
+
+    vec3 dist = center_3D - VERTEX;
     float magnitude = sqrt(pow(dist.x, 2) + pow(dist.y, 2) + pow(dist.z, 2));
-            
+
     if (magnitude <= 0.2)
     {
         scalar = texture(curve_texture, vec2(time - magnitude * 5.0, 0.0)).y * wave_height * (1.0 -(magnitude / 0.2)) * intensity;
     }
-    
+
     height = scalar;
-    
+
     VERTEX += NORMAL * scalar;
 }
 
 void fragment() {
 	// Called for every pixel the material is visible on.
-    
+
     ALBEDO = texture(SCREEN_TEXTURE, UV * texture_scale + vec2(TIME * scroll_speed.x, TIME * scroll_speed.y)).rgb;
-    
+
     if (height > 0.0)
     {
         float value = height * 10.0;
         ALBEDO += vec3(value, value, value);
     }
-    
+
     //
     //float threshold = 0.1f;
     //vec2 uv = UV.xy;
@@ -65,16 +65,16 @@ void fragment() {
     //}
     //
     //if (
-        //UV.x < 0.5 
+        //UV.x < 0.5
         //&& UV.x > 0.1
-        ////&& UV.y > 0.5 
+        ////&& UV.y > 0.5
         ////&& UV.y < 0.6
          //)
     //{
         //ALBEDO.b = 255.0;
     //}
     //
-    //vec3 dist3D = center_3D - VERTEX; 
+    //vec3 dist3D = center_3D - VERTEX;
     //float magnitude3D = sqrt(pow(dist3D.x, 2) + pow(dist3D.y, 2) + pow(dist3D.z, 2));
     //
     //if (magnitude <= 0.1)

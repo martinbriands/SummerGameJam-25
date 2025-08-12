@@ -2,8 +2,13 @@ extends MeshInstance3D
 
 class_name IcoSphere
 
+static var instance: IcoSphere
+
 @export var plate : PackedScene
 @export var human_scene : PackedScene
+@export var magician_scene : PackedScene
+@export var scientist_scene : PackedScene
+@export var racist_scene : PackedScene
 @export var heat_map: Sprite2D
 @export var sea_level: SeaLevel
 
@@ -15,14 +20,12 @@ var bounds_y: Vector2 = Vector2(-0.5, 0.5)
 var bounds_z: Vector2 = Vector2(-0.5, 0.5)
 
 var spawn_timer: float = 0
-@export var spawn_delay: float
-@export var max_humans: int
+
+var human_types: Vector4i
 
 func _ready():    
-    
-    var max = 0
-    var min = 0
-    
+    instance = self
+        
     var image_data = heat_map.texture.get_image()
     
     var faces = mesh.get_faces()
@@ -40,18 +43,18 @@ func _ready():
         hexagon.apply_bounds(bounds_x, bounds_y, bounds_z, image_data)
         
         hexagons.append(hexagon)
-        
-        max = max(face.y, max)
-        min = min(face.y, min)
     
 func _process(delta):
-    if spawn_timer >= spawn_delay:
+    #if sea_level.height == 0:
+    #    return
+    
+    if spawn_timer >= GameRules.instance.human_spawn_delay:
         spawn_timer = 0
-        
-        if humans.size() < max_humans:
+                
+        if humans.size() < GameRules.instance.max_humans:
             spawn_human()
     
-    spawn_timer = clampf(spawn_timer + delta, 0, spawn_delay)
+    spawn_timer = clampf(spawn_timer + delta, 0, GameRules.instance.human_spawn_delay)
 
 func spawn_human():
     var hexagon = hexagons.pick_random()
@@ -62,25 +65,105 @@ func spawn_human():
         hexagon = hexagons.pick_random()
         loop_count = loop_count + 1
     
-    var human = human_scene.instantiate() as Node3D
+    if !hexagon.can_spawn_human():
+        return
+    
+    var human = instantiate_human(false)
+    
+    if human == null:
+        return
+    
     hexagon.spawn_human(human)
         
     humans.append(human)
+    
+    UI.instance.set_human_count(humans.size(), human_types)
+
+enum human_type 
+{
+    HUMAN = 0,
+    MAGICIAN = 1,
+    SCIENTIST = 2,
+    RACIST = 3,
+}
+
+func instantiate_human(evolve: bool) -> Node3D:
+    var type = randi_range(0, human_type.size())
+        
+    if evolve:
+        type = randi_range(1, human_type.size())
+        
+    type = human_type.MAGICIAN
+        
+    match type:
+        human_type.HUMAN:
+            human_types[human_type.HUMAN] += 1
+            return human_scene.instantiate() as Node3D
+        human_type.MAGICIAN:
+            human_types[human_type.MAGICIAN] += 1
+            return magician_scene.instantiate() as Node3D
+        human_type.SCIENTIST:
+            human_types[human_type.SCIENTIST] += 1
+            return scientist_scene.instantiate() as Node3D
+        human_type.RACIST:
+            human_types[human_type.RACIST] += 1
+            return racist_scene.instantiate() as Node3D
+    
+    return null
 
 func _on_sea_level_sea_level_rise(sea_level: int):
-    
     print("sea level has risen ", sea_level)
     
     for hexagon in hexagons:
         if sea_level >= hexagon.layer:
-            var human_to_kill = hexagon.human
-            if human_to_kill == null:
+            if hexagon.human == null:
                 continue
-                
-            humans.erase(human_to_kill)
-            human_to_kill.queue_free()
-            
+            kill_human(hexagon.human)
             hexagon.human = null
+
+func kill_human(human: Human):  
+    var type = get_human_type(human)
+    human_types[type] -= 1
+       
+    humans.erase(human)
+    human.queue_free()
             
-            print("killed a human")
+    print("killed a human")
+    UI.instance.set_human_count(humans.size(), human_types)
+
+func evolve_human(human: Human):  
+    print("evolving a human")
+    var h
+    for hexagon in hexagons:
+        if hexagon.human == human:
+            h = hexagon
+    
+    if h == null:
+        print("evolution failed")
+        return
+    
+    var type = get_human_type(human)
+    human_types[type] -= 1
+       
+    humans.erase(human)
+    human.queue_free()
+    
+    var evolved_human = instantiate_human(true)
+    h.spawn_human(evolved_human)
+    humans.append(evolved_human)
+                
+    print("evolved a human")
+    UI.instance.set_human_count(humans.size(), human_types)
+    
+func get_human_type(human: Human) -> human_type:
+    if human is Magician:
+        return human_type.MAGICIAN
+    if human is Scientist:
+        return human_type.SCIENTIST
+    if human is Racist:
+        return human_type.RACIST
+    
+    return human_type.HUMAN
+    
+    
             

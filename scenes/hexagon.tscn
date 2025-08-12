@@ -1,10 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvfej0c3fm6r8"]
+[gd_scene load_steps=10 format=3 uid="uid://dvfej0c3fm6r8"]
 
 [ext_resource type="Script" uid="uid://carh7ne1kttln" path="res://scripts/hexagon.gd" id="1_11ygp"]
 
 [sub_resource type="Gradient" id="Gradient_11ygp"]
-offsets = PackedFloat32Array(0, 0.3375, 0.629167, 1)
-colors = PackedColorArray(0.686036, 0.694046, 0.283202, 1, 0.196078, 0.788235, 0.227451, 1, 0.0606848, 0.326071, 0, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.26195, 0.49522, 0.739962, 1)
+colors = PackedColorArray(0.686036, 0.694046, 0.283202, 1, 0.196078, 0.788235, 0.227451, 1, 0.0606848, 0.326071, 0, 1, 0.230315, 0.230315, 0.230315, 1, 0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n88i"]
+resource_local_to_scene = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_11ygp"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_8n88i")
+radius = 0.075
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_11ygp"]
+height = 0.2
+radius = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn432"]
+resource_local_to_scene = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_8n88i"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_pn432")
+radius = 0.1
+height = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11ygp"]
 resource_local_to_scene = true
@@ -19,10 +41,6 @@ bottom_radius = 0.05
 height = 0.2
 radial_segments = 6
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_11ygp"]
-height = 0.2
-radius = 0.05
-
 [node name="Hexagon2" type="Node3D"]
 transform = Transform3D(1, 4.76837e-08, 0, 0, -4.37114e-08, 1, 4.76837e-08, -1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_11ygp")
@@ -31,14 +49,40 @@ ice_speed = 0.25
 max_health = 5
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.56034e-25, 4.38456e-09, -0.100307)
-mesh = SubResource("CylinderMesh_pn432")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.56034e-25, 4.2755e-09, -0.0978119)
+mesh = SubResource("CapsuleMesh_11ygp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Mesh"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh/StaticBody3D"]
 shape = SubResource("CylinderShape3D_11ygp")
 
+[node name="Mesh3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.56034e-25, 4.41241e-09, -0.100944)
+visible = false
+mesh = SubResource("SphereMesh_8n88i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Mesh3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh3/StaticBody3D"]
+shape = SubResource("CylinderShape3D_11ygp")
+
+[node name="Mesh2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.56034e-25, 4.38456e-09, -0.100307)
+visible = false
+mesh = SubResource("CylinderMesh_pn432")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Mesh2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh2/StaticBody3D"]
+shape = SubResource("CylinderShape3D_11ygp")
+
 [connection signal="input_event" from="Mesh/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="mouse_entered" from="Mesh/StaticBody3D" to="." method="_on_static_body_3d_mouse_entered"]
 [connection signal="mouse_exited" from="Mesh/StaticBody3D" to="." method="_on_static_body_3d_mouse_exited"]
+[connection signal="input_event" from="Mesh3/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="mouse_entered" from="Mesh3/StaticBody3D" to="." method="_on_static_body_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Mesh3/StaticBody3D" to="." method="_on_static_body_3d_mouse_exited"]
+[connection signal="input_event" from="Mesh2/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="mouse_entered" from="Mesh2/StaticBody3D" to="." method="_on_static_body_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Mesh2/StaticBody3D" to="." method="_on_static_body_3d_mouse_exited"]

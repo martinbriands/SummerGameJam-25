@@ -21,6 +21,13 @@ var layer: layers
 
 @export var gradient: Gradient
 
+var sea_level: SeaLevel
+
+func _ready() -> void:
+    sea_level = (get_parent() as IcoSphere).sea_level
+    sea_level.sea_level_rise.connect(_on_sea_level_rise)
+
+
 func set_hexagon(parent: Node3D, pos: Vector3):
     position = pos
     look_at(parent.position)
@@ -44,7 +51,11 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     origin = position
     normal = (origin - parent_position).normalized()
     
-    position += layer * normal / 60
+    if layer != layers.WHITE:
+        position += layer * normal / 60
+    else:
+        _on_sea_level_rise(0)
+        
     
 func set_color(color: Color):
     var mesh = $Mesh as MeshInstance3D
@@ -129,9 +140,9 @@ func tile_clicked():
     
 func _process(delta):
     if layer == layers.WHITE:
-        position = origin + layer * normal / 60 * ice_scale
+        position = origin + (sea_level.height+2) * normal / 60 * ice_scale
     
-        ice_scale = clampf(ice_scale + delta * ice_speed, 0, 1)
+        ice_scale = clampf(ice_scale + delta / GameRules.instance.iceberg_respawn_delay, 0, 1)
         
         if current_health == 0 and ice_scale == 1:
             current_health = max_health
@@ -143,8 +154,11 @@ func can_spawn_human():
         return false
     
     return layer != layers.BLACK and layer != layers.WHITE
-        
-        
+
+func _on_sea_level_rise(height: int):
+    if layer == layers.WHITE:
+        position = origin + (height+2) * normal / 60
+
     
         
         
