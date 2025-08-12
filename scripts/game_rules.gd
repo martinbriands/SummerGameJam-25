@@ -30,6 +30,7 @@ var max_humans: float
 @export var iceberg_respawn_delay: float
 @export var racist_lifetime: float
 @export var human_evolution_chance: float
+@export var max_sea_level: int
 
 var progress_bar: TextureProgressBar
 var world: IcoSphere

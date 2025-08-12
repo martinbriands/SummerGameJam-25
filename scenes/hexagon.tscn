@@ -8,6 +8,7 @@ colors = PackedColorArray(0.686036, 0.694046, 0.283202, 1, 0.196078, 0.788235, 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n88i"]
 resource_local_to_scene = true
+backlight = Color(0.552956, 0.552956, 0.552956, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_11ygp"]
 resource_local_to_scene = true

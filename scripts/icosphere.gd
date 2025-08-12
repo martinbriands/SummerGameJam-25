@@ -93,7 +93,7 @@ func instantiate_human(evolve: bool) -> Node3D:
     if evolve:
         type = randi_range(1, human_type.size())
         
-    type = human_type.MAGICIAN
+    type = human_type.RACIST
         
     match type:
         human_type.HUMAN:

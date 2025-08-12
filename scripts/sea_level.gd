@@ -23,12 +23,12 @@ func _ready():
     #base_scale = mesh.surface_get_material().
 
 func rise():
-    height = height + 1
+    height = clamp(height + 1, 0, GameRules.instance.max_sea_level)
     
     set_sea_level()
 
 func sink():
-    height = height - 1
+    height = clamp(height - 1, 0, GameRules.instance.max_sea_level)
     
     set_sea_level()
     

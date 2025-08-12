@@ -9,3 +9,6 @@ func _process(delta: float) -> void:
     
     if timer >= GameRules.instance.racist_lifetime:
         IcoSphere.instance.kill_human(self)
+
+func _ready() -> void:
+    (self as Node3D).rotate_z(randf_range(0, 360))
