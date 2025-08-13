@@ -10,6 +10,8 @@ enum human_type
     MAGICIAN = 1,
     SCIENTIST = 2,
     RACIST = 3,
+    BOAT = 4,
+    PLANE = 5
 }
 
 func _ready() -> void:

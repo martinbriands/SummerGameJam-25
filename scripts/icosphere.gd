@@ -9,6 +9,8 @@ static var instance: IcoSphere
 @export var magician_scene : PackedScene
 @export var scientist_scene : PackedScene
 @export var racist_scene : PackedScene
+@export var boat_scene : PackedScene
+@export var plane_scene : PackedScene
 @export var heat_map: Sprite2D
 @export var sea_level: SeaLevel
 
@@ -57,18 +59,25 @@ func _process(delta):
     spawn_timer = clampf(spawn_timer + delta, 0, GameRules.instance.human_spawn_delay)
 
 func spawn_human():
-    var hexagon = hexagons.pick_random()
+    var hexagon = hexagons.pick_random() as Hexagon
     
-    var loop_count = 0
+    #var loop_count = 0
     
-    while !hexagon.can_spawn_human() && loop_count < 100:
-        hexagon = hexagons.pick_random()
-        loop_count = loop_count + 1
+    #while !hexagon.can_spawn_human() && loop_count < 100:
+        #hexagon = hexagons.pick_random()
+        #loop_count = loop_count + 1
     
+    #if !hexagon.can_spawn_human():
+        #return
+    
+    var land_types = [human_type.HUMAN, human_type.MAGICIAN, human_type.SCIENTIST, human_type.RACIST]
+    var vehicle_types = [human_type.BOAT, human_type.PLANE]
+    
+    var type = land_types.pick_random()
     if !hexagon.can_spawn_human():
-        return
-    
-    var human = instantiate_human(false)
+        type = vehicle_types.pick_random()
+
+    var human = instantiate_human(type)
     
     if human == null:
         return
@@ -85,16 +94,11 @@ enum human_type
     MAGICIAN = 1,
     SCIENTIST = 2,
     RACIST = 3,
+    BOAT = 4,
+    PLANE = 5
 }
 
-func instantiate_human(evolve: bool) -> Node3D:
-    var type = randi_range(0, human_type.size())
-        
-    if evolve:
-        type = randi_range(1, human_type.size())
-        
-    type = human_type.RACIST
-        
+func instantiate_human(type: human_type) -> Node3D:                
     match type:
         human_type.HUMAN:
             human_types[human_type.HUMAN] += 1
@@ -108,6 +112,12 @@ func instantiate_human(evolve: bool) -> Node3D:
         human_type.RACIST:
             human_types[human_type.RACIST] += 1
             return racist_scene.instantiate() as Node3D
+        human_type.BOAT:
+            #human_types[human_type.RACIST] += 1
+            return boat_scene.instantiate() as Node3D
+        human_type.PLANE:
+            return plane_scene.instantiate() as Node3D
+
     
     return null
 
@@ -123,7 +133,9 @@ func _on_sea_level_sea_level_rise(sea_level: int):
 
 func kill_human(human: Human):  
     var type = get_human_type(human)
-    human_types[type] -= 1
+    
+    if type <= human_type.RACIST:
+        human_types[type] -= 1
        
     humans.erase(human)
     human.queue_free()
@@ -131,29 +143,29 @@ func kill_human(human: Human):
     print("killed a human")
     UI.instance.set_human_count(humans.size(), human_types)
 
-func evolve_human(human: Human):  
-    print("evolving a human")
-    var h
-    for hexagon in hexagons:
-        if hexagon.human == human:
-            h = hexagon
-    
-    if h == null:
-        print("evolution failed")
-        return
-    
-    var type = get_human_type(human)
-    human_types[type] -= 1
-       
-    humans.erase(human)
-    human.queue_free()
-    
-    var evolved_human = instantiate_human(true)
-    h.spawn_human(evolved_human)
-    humans.append(evolved_human)
-                
-    print("evolved a human")
-    UI.instance.set_human_count(humans.size(), human_types)
+#func evolve_human(human: Human):  
+    #print("evolving a human")
+    #var h
+    #for hexagon in hexagons:
+        #if hexagon.human == human:
+            #h = hexagon
+    #
+    #if h == null:
+        #print("evolution failed")
+        #return
+    #
+    #var type = get_human_type(human)
+    #human_types[type] -= 1
+       #
+    #humans.erase(human)
+    #human.queue_free()
+    #
+    #var evolved_human = instantiate_human(true)
+    #h.spawn_human(evolved_human)
+    #humans.append(evolved_human)
+                #
+    #print("evolved a human")
+    #UI.instance.set_human_count(humans.size(), human_types)
     
 func get_human_type(human: Human) -> human_type:
     if human is Magician:

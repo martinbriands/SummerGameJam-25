@@ -38,7 +38,7 @@ height = 0.05
 _data = [Vector2(0, 0), 0.0, 8.79981, 0, 0, Vector2(0.503093, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_rebko"]
+[sub_resource type="CurveTexture" id="CurveTexture_gr6ep"]
 curve = SubResource("Curve_gr6ep")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gr6ep"]
@@ -46,7 +46,7 @@ direction = Vector3(0, 0, 1)
 initial_velocity_min = 0.02
 initial_velocity_max = 0.03
 gravity = Vector3(0, 0, 0)
-scale_curve = SubResource("CurveTexture_rebko")
+scale_curve = SubResource("CurveTexture_gr6ep")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7al0n"]
 albedo_color = Color(0, 0, 0, 1)

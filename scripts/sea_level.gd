@@ -94,3 +94,20 @@ func on_water_clicked(tile_pos: Vector3, earth_center: Vector3):
     mesh.material.set_shader_parameter("time", time)
     
     $ShockwaveCollisionSphere.position = tile_pos
+    
+    print(tile_pos)
+
+@onready var camera = get_viewport().get_camera_3d()
+
+func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
+    if event is InputEventMouseButton and event.is_pressed():
+        var from = camera.project_ray_origin(event.position)
+        var to = from + camera.project_ray_normal(event.position) * 1000
+        
+        var space_state = get_world_3d().direct_space_state
+        var query = PhysicsRayQueryParameters3D.create(from, to)
+        
+        var result = space_state.intersect_ray(query)
+                
+        if result:
+            on_water_clicked(result.position / 10, position)

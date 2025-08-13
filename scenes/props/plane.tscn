@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://b86wxvre05vas"]
+
+[ext_resource type="Script" uid="uid://dlqd0ku0klxpy" path="res://scripts/plane.gd" id="1_btlcq"]
+[ext_resource type="Texture2D" uid="uid://2wdr40d1krey" path="res://assets/icons8-utilisateur-96.png" id="2_5ehjc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_swaxu"]
+radius = 0.075
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5ehjc"]
+radius = 0.025
+height = 0.17
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40aix"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ebn32"]
+material = SubResource("StandardMaterial3D_40aix")
+radius = 0.026
+height = 0.17
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ju68x"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1nklx"]
+material = SubResource("StandardMaterial3D_ju68x")
+top_radius = 0.02
+bottom_radius = 0.0
+height = 0.02
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yr5ke"]
+radius = 0.025
+height = 0.1
+
+[sub_resource type="PrismMesh" id="PrismMesh_d0kki"]
+left_to_right = -0.5
+size = Vector3(0.05, 0.065, 0.01)
+
+[sub_resource type="PrismMesh" id="PrismMesh_8l6c3"]
+left_to_right = -0.5
+size = Vector3(0.05, 0.05, 0.01)
+
+[sub_resource type="PrismMesh" id="PrismMesh_h4622"]
+left_to_right = -0.5
+size = Vector3(0.01, 0.03, 0.01)
+
+[sub_resource type="Curve" id="Curve_btlcq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ehjc"]
+curve = SubResource("Curve_btlcq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_btlcq"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_5ehjc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btlcq"]
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_btlcq"]
+material = SubResource("StandardMaterial3D_btlcq")
+radius = 0.01
+section_length = 0.01
+cap_top = false
+cap_bottom = false
+
+[node name="Plane" type="Node3D"]
+script = ExtResource("1_btlcq")
+plane_speed = 0.2
+plane_height = 8.0
+
+[node name="Parent" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="Area3D" parent="Parent"]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parent/StaticBody3D"]
+shape = SubResource("SphereShape3D_swaxu")
+
+[node name="Sprite3D" type="Sprite3D" parent="Parent"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0.05)
+visible = false
+billboard = 1
+texture = ExtResource("2_5ehjc")
+
+[node name="Node3D2" type="Node3D" parent="Parent"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0408231, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0.0258663)
+mesh = SubResource("CapsuleMesh_5ehjc")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 0.2, 0, 0, 0.031066)
+mesh = SubResource("CapsuleMesh_ebn32")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.0853548, 3.73097e-09, 0.0258663)
+mesh = SubResource("CylinderMesh_1nklx")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 0.75, 0.0469799, -7.43971e-10, 0.0201209)
+mesh = SubResource("CapsuleMesh_yr5ke")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206218, 0.0551297, 0.0175649)
+mesh = SubResource("PrismMesh_d0kki")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, 0.0205554, -0.055, 0.0176986)
+mesh = SubResource("PrismMesh_d0kki")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.049, 0, 0.052)
+mesh = SubResource("PrismMesh_8l6c3")
+skeleton = NodePath("../MeshInstance3D3")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0782515, 0.0191185, 0.0450136)
+mesh = SubResource("PrismMesh_h4622")
+skeleton = NodePath("../MeshInstance3D3")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Parent/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, -0.078, -0.019, 0.045)
+mesh = SubResource("PrismMesh_h4622")
+skeleton = NodePath("../MeshInstance3D3")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Parent/Node3D2"]
+transform = Transform3D(2.62268e-07, 2, 8.74228e-08, 7.64274e-15, 8.74228e-08, -2, -2, 2.62268e-07, 3.82137e-15, -0.0215564, 0.081957, 0.0198108)
+amount = 50
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_btlcq")
+draw_pass_1 = SubResource("TubeTrailMesh_btlcq")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Parent/Node3D2"]
+transform = Transform3D(2.62268e-07, 2, 8.74228e-08, 7.64274e-15, 8.74228e-08, -2, -2, 2.62268e-07, 3.82137e-15, -0.022, -0.082, 0.02)
+amount = 50
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_btlcq")
+draw_pass_1 = SubResource("TubeTrailMesh_btlcq")
+
+[connection signal="area_entered" from="Parent/StaticBody3D" to="." method="_on_static_body_3d_area_entered"]
+[connection signal="input_event" from="Parent/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

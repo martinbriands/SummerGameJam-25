@@ -1,7 +1,6 @@
 extends Node3D
 
 class_name Hexagon
-#func _ready() -> void:
 
 enum layers {
     BLACK = -1,
@@ -135,8 +134,8 @@ func tile_clicked():
     
     var sea_level = (get_parent() as IcoSphere).sea_level
 
-    if sea_level.height >= layer:
-        sea_level.on_water_clicked(position, parent_position)
+    #if sea_level.height >= layer:
+        #sea_level.on_water_clicked(position, parent_position)
     
 func _process(delta):
     if layer == layers.WHITE:
