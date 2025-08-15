@@ -140,6 +140,7 @@ func apply_size():
 func update_mesh():
     ## Save materials
     vertices=[] ##reset vertices
+    #uvs = []
     var materials = []
     for i in get_surface_count(): 
         materials.append(surface_get_material(i))

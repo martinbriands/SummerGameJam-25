@@ -68,9 +68,7 @@ func set_color(color: Color):
     
     mesh.mesh.material.albedo_color = color
     
-func color_to_enum(color: Color):
-    #print(color)
-    
+static func color_to_enum(color: Color):    
     if color == Color.BLACK:
         return layers.BLACK
     if color == Color.AQUA:
@@ -120,17 +118,28 @@ func _on_static_body_3d_mouse_exited():
     pressed = false
     
 func tile_clicked():
-    if layer == layers.WHITE and current_health != 0:
-        current_health = clampi(current_health - 1, 0, max_health)
+    print("TILE CLICKED")
+    
+    if GameRules.instance.last_clicked_tile == self:
+        print("TILE DOUBLE CLICKED")
+        GameRules.instance.last_clicked_tile = null
         
-        var value = (float(current_health) / max_health)
-        set_color(Color(value, value, value))
+        AsteroidManager.instance.create_asteroid(global_position)
         
-        if current_health == 0:
-            ice_scale = 0
-            var earth = get_parent() as IcoSphere
-            earth.sea_level.destory_ice()
-            set_color(Color.WHITE)
+    else:
+        GameRules.instance.last_clicked_tile = self
+    
+    #if layer == layers.WHITE and current_health != 0:
+        #current_health = clampi(current_health - 1, 0, max_health)
+        #
+        #var value = (float(current_health) / max_health)
+        #set_color(Color(value, value, value))
+        #
+        #if current_health == 0:
+            #ice_scale = 0
+            #var earth = get_parent() as IcoSphere
+            #earth.sea_level.destory_ice()
+            #set_color(Color.WHITE)
     
     var sea_level = (get_parent() as IcoSphere).sea_level
 

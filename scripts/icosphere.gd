@@ -25,16 +25,19 @@ var spawn_timer: float = 0
 
 var human_types: Vector4i
 
+var image_data: Image
+
 func _ready():    
     instance = self
         
-    var image_data = heat_map.texture.get_image()
+    image_data = heat_map.texture.get_image()
     
     var faces = mesh.get_faces()
     var faces_no_duplicates = []
 
     for face in faces:
         if not faces_no_duplicates.has(face):
+           # faces_no_duplicates.append(face)
             faces_no_duplicates.append(face)
     
     for face in faces_no_duplicates:
@@ -45,6 +48,44 @@ func _ready():
         hexagon.apply_bounds(bounds_x, bounds_y, bounds_z, image_data)
         
         hexagons.append(hexagon)
+    
+    #create_array_mesh()
+
+#func create_array_mesh():
+    #var arraymesh = ($ArrayMesh as MeshInstance3D).mesh as ArrayMesh
+    #var ico_sphere_mesh = mesh as IcoSphereMesh
+    #
+    #var vertices = PackedVector3Array()
+    #
+    #for element in mesh.get_faces():
+        #vertices.push_back(element + element.normalized() * get_face_height(element))
+        ##vertices.push_back(element )
+        #
+    #var uvs = PackedVector2Array()
+    #uvs.append(Vector2(0, 0)) 
+    #uvs.append(Vector2(1, 0))
+    #uvs.append(Vector2(0,1))
+    #uvs.append(Vector2(1,1))
+    #
+    #var arr_mesh = ArrayMesh.new()
+    #var arrays = []
+    #arrays.resize(Mesh.ARRAY_MAX)
+    #arrays[Mesh.ARRAY_VERTEX] = vertices
+    ##arrays[Mesh.ARRAY_TEX_UV] = uvs
+    #
+    #arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+
+
+func get_face_height(pos: Vector3) -> float:
+    var lat = rad_to_deg(atan2(pos.z,sqrt(pos.x*pos.x+pos.y*pos.y)))
+    var lng =  rad_to_deg(atan2(pos.y, pos.x))
+    
+    var x = clampf(image_data.get_height() * (180 + lng) / 360, 0, 255)
+    var y = clampf(image_data.get_width() * (90 - lat) / 180, 0, 255)
+        
+    var color = image_data.get_pixel(x, y)
+    
+    return float(color.r) / 10
     
 func _process(delta):
     #if sea_level.height == 0:
@@ -61,6 +102,9 @@ func _process(delta):
 func spawn_human():
     var hexagon = hexagons.pick_random() as Hexagon
     
+    if hexagon == null:
+        return
+    
     #var loop_count = 0
     
     #while !hexagon.can_spawn_human() && loop_count < 100:
@@ -73,7 +117,8 @@ func spawn_human():
     var land_types = [human_type.HUMAN, human_type.MAGICIAN, human_type.SCIENTIST, human_type.RACIST]
     var vehicle_types = [human_type.BOAT, human_type.PLANE]
     
-    var type = land_types.pick_random()
+    #var type = land_types.pick_random()
+    var type = human_type.SCIENTIST
     if !hexagon.can_spawn_human():
         type = vehicle_types.pick_random()
 

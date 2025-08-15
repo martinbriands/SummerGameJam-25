@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dwg81a8r21xj6"]
+
+[resource]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.180392, 0.239216, 1, 1)
+emission = Color(1, 1, 1, 1)

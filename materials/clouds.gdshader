@@ -1,10 +1,13 @@
 shader_type spatial;
 
 uniform sampler2D noise;
-
+uniform sampler2D noise2;
 
 void vertex() {
 	// Called for every vertex the material is visible on.
+    //VERTEX += NORMAL * sin(TIME + UV.x * UV.y) / 100.0;
+    
+    VERTEX += NORMAL * (texture(noise2, UV + vec2(0.0, TIME * 0.01)).rgb.r) / 10.0;
 }
 
 void fragment() {
@@ -14,7 +17,7 @@ void fragment() {
 	// Called for every pixel the material is visible on.
     ALBEDO = texture;
     
-    if (texture.r > 0.5)
+    if (texture.r > 0.6 + sin(TIME) / 100.0)
     {
         ALPHA = texture.r / 4.0;
     }

@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2le6hhhx6ben"]
+
+[ext_resource type="Texture2D" uid="uid://bp34wxyvirjeg" path="res://assets/13302.jpg" id="1_akfqu"]
+[ext_resource type="Script" uid="uid://bcld58buakv43" path="res://scripts/asteroid.gd" id="2_6mo6b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mo6b"]
+albedo_texture = ExtResource("1_akfqu")
+uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="SphereMesh" id="SphereMesh_t4se3"]
+material = SubResource("StandardMaterial3D_6mo6b")
+
+[node name="Asteroid" type="Node3D"]
+script = ExtResource("2_6mo6b")
+speed = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_t4se3")

@@ -1,11 +1,94 @@
-[gd_scene load_steps=4 format=3 uid="uid://jjqx4dgen2kv"]
+[gd_scene load_steps=15 format=3 uid="uid://jjqx4dgen2kv"]
 
 [ext_resource type="PackedScene" uid="uid://dimwvd6o1dvak" path="res://scenes/humans/human.tscn" id="1_jvt0y"]
 [ext_resource type="Script" uid="uid://cx4a0j72y3ir3" path="res://scripts/scientist.gd" id="2_ruave"]
 [ext_resource type="Texture2D" uid="uid://dif3sqn1e41al" path="res://assets/icons8-flask-64.png" id="3_mur77"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_ruave"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jvt0y"]
+albedo_color = Color(0.372091, 0.170052, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_ruave"]
+material = SubResource("StandardMaterial3D_jvt0y")
+size = Vector3(0.125, 0.05, 0.125)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mur77"]
+albedo_color = Color(0.69883, 0.691302, 0.670861, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jvt0y"]
+material = SubResource("StandardMaterial3D_mur77")
+size = Vector3(0.1, 0.1, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ruave"]
+albedo_color = Color(0.656561, 0.47209, 0.100902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mur77"]
+material = SubResource("StandardMaterial3D_ruave")
+size = Vector3(0.1, 0.1, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fi1i7"]
+material = SubResource("StandardMaterial3D_ruave")
+size = Vector3(0.08, 0.08, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tffcd"]
+material = SubResource("StandardMaterial3D_ruave")
+size = Vector3(0.11, 0.11, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tffcd"]
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_85wsw"]
+material = SubResource("StandardMaterial3D_tffcd")
+top_radius = 0.003
+bottom_radius = 0.01
+height = 0.1
+
 [node name="Scientist" instance=ExtResource("1_jvt0y")]
 script = ExtResource("2_ruave")
+time_to_evolve = 10.0
 
 [node name="Sprite3D" parent="." index="1"]
+visible = false
 texture = ExtResource("3_mur77")
+
+[node name="House" type="Node3D" parent="." index="2"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="House" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
+mesh = SubResource("BoxMesh_ruave")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="House" index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.125)
+mesh = SubResource("PrismMesh_ruave")
+
+[node name="Building" type="Node3D" parent="." index="3"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Building" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+mesh = SubResource("BoxMesh_jvt0y")
+
+[node name="Skyscraper" type="Node3D" parent="." index="4"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Skyscraper" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+mesh = SubResource("BoxMesh_mur77")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Skyscraper" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.262067)
+mesh = SubResource("BoxMesh_fi1i7")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Skyscraper" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0411807)
+mesh = SubResource("BoxMesh_tffcd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Skyscraper" index="3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.52076e-08, 0.347909)
+mesh = SubResource("CylinderMesh_85wsw")

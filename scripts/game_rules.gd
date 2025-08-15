@@ -42,6 +42,8 @@ var ui: UI
 var progress: float = 50
 var human_impact: float = 0
 
+var last_clicked_tile: Hexagon
+
 func _process(delta: float) -> void:
     #if sea_level.height == 0:
     #    return
