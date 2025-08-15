@@ -13,6 +13,12 @@ uniform vec2 scroll_speed;
 
 varying float height;
 
+uniform vec3 oil_spills[10];
+uniform float oil_spill_timers[10];
+varying float oil;
+
+uniform float oil_time = 5.0;
+
 //0.41132998395924 0.34367026670768
 //uniform vec2 center = vec2(0.58867001604076, 0.65632973329232);
 //0.91663348633318 0.25392402266552
@@ -33,6 +39,20 @@ void vertex() {
     height = scalar;
 
     VERTEX += NORMAL * scalar;
+    
+    for (int i = 0; i < oil_spills.length(); i++)
+    {
+        if (oil_spill_timers[i] >= 0.0)
+        {
+            vec3 dist = oil_spills[i] - VERTEX;
+            float magnitude = sqrt(pow(dist.x, 2) + pow(dist.y, 2) + pow(dist.z, 2));
+            
+            if (magnitude < 0.2 * (1.0 - oil_spill_timers[i] / oil_time)) 
+            {
+                oil = max(oil, (1.0 - magnitude * 5.0));
+            }
+        }
+    }
 }
 
 void fragment() {
@@ -40,10 +60,16 @@ void fragment() {
 
     ALBEDO = texture(SCREEN_TEXTURE, UV * texture_scale + vec2(TIME * scroll_speed.x, TIME * scroll_speed.y)).rgb;
 
+    if (oil > 0.0)
+    {
+        //ALBEDO = vec3(.0, .0, .0);
+        ALBEDO = mix(ALBEDO, vec3(0.0, 0.0, 0.0), oil);
+        //ALBEDO = vec3(.0, .0, .0);
+    }
+    
     if (height > 0.0)
     {
-        float value = height * 10.0;
-        ALBEDO += vec3(value, value, value);
+        ALBEDO += vec3(height, height, height) * 10.0;
     }
 
     //

@@ -118,7 +118,7 @@ func spawn_human():
     var vehicle_types = [human_type.BOAT, human_type.PLANE]
     
     #var type = land_types.pick_random()
-    var type = human_type.SCIENTIST
+    var type = land_types.pick_random()
     if !hexagon.can_spawn_human():
         type = vehicle_types.pick_random()
 
@@ -185,8 +185,9 @@ func kill_human(human: Human):
     humans.erase(human)
     human.queue_free()
             
-    print("killed a human")
+    print("killed a human ", type)
     UI.instance.set_human_count(humans.size(), human_types)
+    GameRules.instance.on_mayhem(type)
 
 #func evolve_human(human: Human):  
     #print("evolving a human")

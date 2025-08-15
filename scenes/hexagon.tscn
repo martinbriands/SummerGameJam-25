@@ -55,6 +55,7 @@ mesh = SubResource("CapsuleMesh_11ygp")
 shape = SubResource("CylinderShape3D_11ygp")
 
 [node name="HexagonCollisionSphere" type="Area3D" parent="Mesh"]
+input_ray_pickable = false
 monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh/HexagonCollisionSphere"]
@@ -66,6 +67,7 @@ visible = false
 mesh = SubResource("CylinderMesh_pn432")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Mesh2"]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh2/StaticBody3D"]
 shape = SubResource("CylinderShape3D_11ygp")

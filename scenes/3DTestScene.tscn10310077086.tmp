@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://citckpmilhuf8"]
+[gd_scene load_steps=47 format=4 uid="uid://citckpmilhuf8"]
 
 [ext_resource type="Texture2D" uid="uid://cpdqcgoo7lpw2" path="res://assets/2999-diffuse.jpg" id="1_78tbb"]
 [ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
@@ -24,16 +24,6 @@
 [ext_resource type="Texture2D" uid="uid://be2fhamiaq26w" path="res://assets/BREAKING NEWS2.png" id="19_l7586"]
 [ext_resource type="PackedScene" uid="uid://d2le6hhhx6ben" path="res://scenes/asteroid.tscn" id="19_xvfhu"]
 [ext_resource type="Script" uid="uid://kwcgtfvtv4lx" path="res://scripts/scrollable_text.gd" id="20_g0e0t"]
-[ext_resource type="Texture2D" uid="uid://blha8rg07oae8" path="res://assets/weather/weather_2.png" id="21_pxv7e"]
-[ext_resource type="Texture2D" uid="uid://b7b37cmui47lr" path="res://assets/weather/weather_3.png" id="22_mmr4a"]
-[ext_resource type="Texture2D" uid="uid://cxprc5xgsywds" path="res://assets/weather/weather_4.png" id="23_el1ds"]
-[ext_resource type="Texture2D" uid="uid://e0skvysw8om5" path="res://assets/live.png" id="23_xvfhu"]
-[ext_resource type="Texture2D" uid="uid://dfk25bfofv4qj" path="res://assets/weather/weather_back.png" id="24_c2wby"]
-[ext_resource type="Texture2D" uid="uid://b6txxf35f02l" path="res://assets/weather/weather_5.png" id="24_so3ke"]
-[ext_resource type="Texture2D" uid="uid://iyulxush6ers" path="res://assets/weather/weather_6.png" id="25_7jtq2"]
-[ext_resource type="Texture2D" uid="uid://7t7ny1p70olp" path="res://assets/weather/weather_1.png" id="25_g8lx0"]
-[ext_resource type="Texture2D" uid="uid://c7kgtouj6mr6d" path="res://assets/weather/weather_7.png" id="26_bjipj"]
-[ext_resource type="Texture2D" uid="uid://bfaebcq35hgqt" path="res://assets/weather/weather_8.png" id="27_p0k32"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0a4lp"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -147,11 +137,6 @@ material = SubResource("ShaderMaterial_sk6si")
 radius = 0.7
 height = 1.4
 
-[sub_resource type="Curve" id="Curve_pxv7e"]
-_limits = [0.0, 7.0, 0.0, 100.0]
-_data = [Vector2(15, 0), 0.0, 0.0, 0, 0, Vector2(20, 2), 0.0, 0.0, 0, 0, Vector2(30, 3), 0.0, 0.0, 0, 0, Vector2(45, 4), 0.0, 0.0, 0, 0, Vector2(60, 5), 0.0, 0.0, 0, 0, Vector2(75, 6), 0.0, 0.0, 0, 0, Vector2(100, 7), 0.0, 0.0, 0, 0]
-point_count = 7
-
 [sub_resource type="Curve" id="Curve_4se8r"]
 _limits = [0.0, 25.0, 0.0, 7.0]
 _data = [Vector2(0, 25), 0.0, 0.0, 0, 0, Vector2(7, 25), 0.0, 0.0, 0, 0]
@@ -252,11 +237,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("10_ol5e0")
-weather_images = Array[Texture2D]([ExtResource("25_g8lx0"), ExtResource("21_pxv7e"), ExtResource("22_mmr4a"), ExtResource("23_el1ds"), ExtResource("24_so3ke"), ExtResource("25_7jtq2"), ExtResource("26_bjipj"), ExtResource("27_p0k32")])
-weather_curve = SubResource("Curve_pxv7e")
 
 [node name="GridContainer" type="GridContainer" parent="UI"]
-visible = false
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 600.0
@@ -287,7 +269,6 @@ layout_mode = 2
 text = "Human Impact :"
 
 [node name="Temperature" type="TextureProgressBar" parent="UI"]
-visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -321,47 +302,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("19_l7586")
-
-[node name="Live" type="TextureRect" parent="UI/BreakingNews"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -152.0
-offset_right = -24.0
-offset_bottom = 128.0
-grow_horizontal = 0
-texture = ExtResource("23_xvfhu")
-
-[node name="Weather" type="TextureRect" parent="UI/BreakingNews"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -160.0
-offset_top = 353.0
-offset_right = -32.0
-offset_bottom = 481.0
-grow_horizontal = 0
-texture = ExtResource("24_c2wby")
-
-[node name="Temperature" type="RichTextLabel" parent="UI/BreakingNews/Weather"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 18.0
-offset_right = 120.0
-offset_bottom = 91.0
-theme_override_font_sizes/normal_font_size = 41
-text = "30°"
-
-[node name="TemperatureImage" type="TextureRect" parent="UI/BreakingNews/Weather"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("25_g8lx0")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/BreakingNews"]
 layout_mode = 1

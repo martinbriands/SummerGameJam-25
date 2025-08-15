@@ -23,6 +23,8 @@ func hit_by_water():
     if is_crashing:
         return
         
+    IcoSphere.instance.sea_level.create_oil_spill($Parent.global_position / 10)
+        
     is_crashing = true
     crashing_timer = 0
     await get_tree().create_timer(2).timeout

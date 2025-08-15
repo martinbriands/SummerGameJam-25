@@ -15,12 +15,13 @@ var t: float = 999
 var sub_height: int
 @export var sub_height_max: int
 
+var oil_spills: Array[OilSpill]
+
 signal sea_level_rise(height: int)
 signal iceberg_destroyed
 
 func _ready():
     base_size = scale.x
-    #base_scale = mesh.surface_get_material().
 
 func rise():
     height = clamp(height + 1, 0, GameRules.instance.max_sea_level)
@@ -70,6 +71,28 @@ func _process(delta):
     time += delta
     mesh.material.set_shader_parameter("time", time)
     
+    var oil_spill_positions = []
+    var oil_spill_timers = []
+    
+    for i in range(10):
+        oil_spill_positions.append(Vector3.ZERO)
+        oil_spill_timers.append(-1)
+        
+    var index = 0
+    
+    while oil_spills.size() > 10:
+        print("poppop")
+        oil_spills.pop_front()
+    
+    for oil_spill in oil_spills:
+        oil_spill.time = clamp(oil_spill.time - delta, 0, 5)
+        
+        oil_spill_positions[index] = oil_spill.position
+        oil_spill_timers[index] = oil_spill.time
+        index += 1
+    
+    mesh.material.set_shader_parameter("oil_spills", oil_spill_positions)
+    mesh.material.set_shader_parameter("oil_spill_timers", oil_spill_timers)
 
 func risen():
     sea_level_rise.emit(height)
@@ -94,13 +117,11 @@ func on_water_clicked(tile_pos: Vector3, earth_center: Vector3):
     mesh.material.set_shader_parameter("time", time)
     
     $ShockwaveCollisionSphere.position = tile_pos
-    
-    print(tile_pos)
 
 @onready var camera = get_viewport().get_camera_3d()
 
 func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
-    if event is InputEventMouseButton and event.is_pressed():
+    if event is InputEventMouseButton and !event.is_pressed():
         var from = camera.project_ray_origin(event.position)
         var to = from + camera.project_ray_normal(event.position) * 1000
         
@@ -111,3 +132,13 @@ func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
                 
         if result:
             on_water_clicked(result.position / 10, position)
+
+func create_oil_spill(pos: Vector3):
+    
+    print("oil spill ", pos)
+    
+    var oil_spill = OilSpill.new()
+    oil_spill.position = pos
+    oil_spill.time = 5
+    
+    oil_spills.append(oil_spill)

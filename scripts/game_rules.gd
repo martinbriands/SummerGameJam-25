@@ -24,6 +24,8 @@ func _ready() -> void:
     
     ui = UI.instance
     
+    ui.set_temperature(temperature)
+    
 @export var max_humans_curve: Curve
 var max_humans: float
 @export var human_spawn_delay: float
@@ -77,3 +79,9 @@ func process_humans():
     human_impact = magicians - racists
         
     ui.set_human_impact(human_impact * human_temperature_impact)
+    
+var temperature = 15
+func on_mayhem(type: human_type):
+    temperature += 1
+    
+    ui.set_temperature(temperature)

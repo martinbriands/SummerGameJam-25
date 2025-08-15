@@ -26,6 +26,9 @@ shader_parameter/time = 0.0
 shader_parameter/wave_height = 0.2
 shader_parameter/curve_texture = SubResource("CurveTexture_mgkec")
 shader_parameter/scroll_speed = Vector2(0, 0)
+shader_parameter/oil_spills = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/oil_spill_timers = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/oil_time = 5.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_gamc8"]
 material = SubResource("ShaderMaterial_56rt2")

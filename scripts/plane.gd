@@ -14,7 +14,7 @@ func hit_by_water():
         return
         
     is_dying = true
-        
+            
     IcoSphere.instance.sea_level.on_water_clicked($Parent.global_position / 10, Vector3.ZERO)
     await get_tree().create_timer(1).timeout
     IcoSphere.instance.kill_human(self)
@@ -25,8 +25,19 @@ func hit_by_land(area: Area3D):
     
     is_dying = true
     
-    await get_tree().create_timer(1).timeout
+    explode()
+    
+    await get_tree().create_timer(2).timeout
     IcoSphere.instance.kill_human(self)
+    
+func explode():
+    $Parent/Explosion/Debris.emitting = true
+    $Parent/Explosion/Fire.emitting = true
+    $Parent/Explosion/Smoke.emitting = true
+    
+    ($Parent/Explosion/Debris.process_material as ParticleProcessMaterial).gravity = $Parent.position.normalized() * -9.8 / 2
+    ($Parent/Explosion/Smoke.process_material as ParticleProcessMaterial).gravity = $Parent.position.normalized() * -5 / 10
+    ($Parent/Explosion/Fire.process_material as ParticleProcessMaterial).gravity = $Parent.position.normalized() * -5 / 10
 
 func _process(delta: float) -> void:
     #translate(Vector3(0.1 * delta,0,0))
