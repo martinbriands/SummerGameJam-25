@@ -224,14 +224,12 @@ shockwave_intensity = 1.0
 intensity_curve = SubResource("Curve_0a4lp")
 
 [node name="ShockwaveCollisionSphere" type="Area3D" parent="IcoSphere/SeaLevel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.865805)
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="IcoSphere/SeaLevel/ShockwaveCollisionSphere"]
 shape = SubResource("SphereShape3D_0a4lp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="IcoSphere/SeaLevel/ShockwaveCollisionSphere"]
-visible = false
 mesh = SubResource("SphereMesh_5ukjf")
 
 [node name="WaterCollisionSphere" type="Area3D" parent="IcoSphere/SeaLevel"]

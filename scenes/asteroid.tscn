@@ -1,11 +1,14 @@
-[gd_scene load_steps=26 format=3 uid="uid://d2le6hhhx6ben"]
+[gd_scene load_steps=34 format=3 uid="uid://d2le6hhhx6ben"]
 
-[ext_resource type="Texture2D" uid="uid://bp34wxyvirjeg" path="res://assets/13302.jpg" id="1_akfqu"]
 [ext_resource type="Script" uid="uid://bcld58buakv43" path="res://scripts/asteroid.gd" id="2_6mo6b"]
+[ext_resource type="Texture2D" uid="uid://eupsuxvb2l5e" path="res://assets/13302_specular.png" id="2_t4se3"]
+[ext_resource type="Texture2D" uid="uid://o6ig03wry0s4" path="res://assets/13302_normal (1).png" id="3_pnq5b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mo6b"]
-albedo_texture = ExtResource("1_akfqu")
-uv1_scale = Vector3(4, 4, 4)
+albedo_texture = ExtResource("2_t4se3")
+normal_enabled = true
+normal_texture = ExtResource("3_pnq5b")
+uv1_scale = Vector3(4, 2, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_t4se3"]
 material = SubResource("StandardMaterial3D_6mo6b")
@@ -116,6 +119,38 @@ emission_curve = SubResource("CurveTexture_x1lus")
 [sub_resource type="SphereShape3D" id="SphereShape3D_t4se3"]
 radius = 2.0
 
+[sub_resource type="Curve" id="Curve_t4se3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.464504, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t4se3"]
+curve = SubResource("Curve_t4se3")
+
+[sub_resource type="Curve" id="Curve_kkwpv"]
+_data = [Vector2(0.0140187, 0.0674158), 0.0, 4.48839, 0, 0, Vector2(0.46729, 0.988764), 0.0, 0.0, 0, 0, Vector2(0.686916, 1), 0.0, 0.0, 0, 0, Vector2(0.990654, 0), -5.81086, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_0jovh"]
+curve = SubResource("Curve_kkwpv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4se3"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 0, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_0jovh")
+color = Color(0.255659, 0.255659, 0.255659, 1)
+alpha_curve = SubResource("CurveTexture_t4se3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kkwpv"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_2wa65"]
+material = SubResource("StandardMaterial3D_kkwpv")
+
 [node name="Asteroid" type="Node3D"]
 script = ExtResource("2_6mo6b")
 speed = 10.0
@@ -164,5 +199,10 @@ input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AsteroidCollisionSphere"]
 shape = SubResource("SphereShape3D_t4se3")
+
+[node name="SmokeTrail" type="GPUParticles3D" parent="."]
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_t4se3")
+draw_pass_1 = SubResource("SphereMesh_2wa65")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

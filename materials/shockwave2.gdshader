@@ -39,15 +39,15 @@ void vertex() {
     height = scalar;
 
     VERTEX += NORMAL * scalar;
-    
+
     for (int i = 0; i < oil_spills.length(); i++)
     {
         if (oil_spill_timers[i] >= 0.0)
         {
             vec3 dist = oil_spills[i] - VERTEX;
             float magnitude = sqrt(pow(dist.x, 2) + pow(dist.y, 2) + pow(dist.z, 2));
-            
-            if (magnitude < 0.2 * (1.0 - oil_spill_timers[i] / oil_time)) 
+
+            if (magnitude < 0.2 * (1.0 - oil_spill_timers[i] / oil_time))
             {
                 oil = max(oil, (1.0 - magnitude * 5.0));
             }
@@ -66,7 +66,7 @@ void fragment() {
         ALBEDO = mix(ALBEDO, vec3(0.0, 0.0, 0.0), oil);
         //ALBEDO = vec3(.0, .0, .0);
     }
-    
+
     if (height > 0.0)
     {
         ALBEDO += vec3(height, height, height) * 10.0;

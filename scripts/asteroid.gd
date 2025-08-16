@@ -12,21 +12,17 @@ func set_destination(pos: Vector3):
     
     look_at(pos)
     
-    #($Explosion/Debris.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -9.8
-    #($Explosion/Smoke.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -5
-    #($Explosion/Fire.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -5
-    
     ($Explosion/Debris.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -9.8 / 2
     ($Explosion/Smoke.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -5 / 10
     ($Explosion/Fire.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -5 / 10
-    
-    #($Explosion/GPUParticles3D.process_material as ParticleProcessMaterial).gravity = direction.normalized() * -5
-    
+        
     moving = true
 
 func _process(delta: float) -> void:
     if moving:
         position += direction * delta * speed
+    
+    $MeshInstance3D.rotate_x(-delta * 5)
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
     if area.name == "ShockwaveCollisionSphere":
@@ -48,6 +44,8 @@ func hit_by_land():
     
     $MeshInstance3D.visible = false
     $AsteroidCollisionSphere.position = Vector3.ZERO
+    
+    $SmokeTrail.emitting = false
     
     await get_tree().create_timer(2).timeout
     queue_free()

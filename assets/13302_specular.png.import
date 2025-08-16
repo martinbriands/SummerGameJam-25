@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp34wxyvirjeg"
-path.s3tc="res://.godot/imported/13302.jpg-41142263b683bc56423eb0718ceba104.s3tc.ctex"
+uid="uid://eupsuxvb2l5e"
+path.s3tc="res://.godot/imported/13302_specular.png-0779e2ed1c072eb0650dd6e1eea855c8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/13302.jpg"
-dest_files=["res://.godot/imported/13302.jpg-41142263b683bc56423eb0718ceba104.s3tc.ctex"]
+source_file="res://assets/13302_specular.png"
+dest_files=["res://.godot/imported/13302_specular.png-0779e2ed1c072eb0650dd6e1eea855c8.s3tc.ctex"]
 
 [params]
 
