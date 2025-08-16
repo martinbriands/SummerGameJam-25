@@ -11,7 +11,8 @@ enum human_type
     SCIENTIST = 2,
     RACIST = 3,
     BOAT = 4,
-    PLANE = 5
+    PLANE = 5,
+    ICEBERG = 6
 }
 
 func _ready() -> void:
@@ -27,7 +28,7 @@ func _ready() -> void:
     ui.set_temperature(temperature)
     
 @export var max_humans_curve: Curve
-var max_humans: float
+var max_humans: float = 100
 @export var human_spawn_delay: float
 @export var human_temperature_impact: float
 @export var iceberg_temperature_impact: float
@@ -47,20 +48,21 @@ var human_impact: float = 0
 var last_clicked_tile: Hexagon
 
 func _process(delta: float) -> void:
+    pass
     #if sea_level.height == 0:
     #    return
     
-    process_humans()
+    #process_humans()
     
-    progress = clamp(progress - human_impact * delta, 0, 100)
+    #progress = clamp(progress - human_impact * delta, 0, 100)
     
-    if progress == 0:
-        sea_level.sink()
-        progress = 75
+    #if progress == 0:
+        #sea_level.sink()
+        #progress = 75
         
-    progress_bar.value = progress
+    #progress_bar.value = progress
     
-    max_humans = max_humans_curve.sample(sea_level.height + 0.01)
+    #max_humans = max_humans_curve.sample(sea_level.height + 0.01)
 
 func _on_iceberg_destroyed():
     progress = clamp(progress + iceberg_temperature_impact, 0, 100)
@@ -81,7 +83,19 @@ func process_humans():
     ui.set_human_impact(human_impact * human_temperature_impact)
     
 var temperature = 15
+
 func on_mayhem(type: human_type):
-    temperature += 1
     
-    ui.set_temperature(temperature)
+    print("on mayhem ", type)
+    
+    if type == human_type.BOAT or type == human_type.PLANE or type == human_type.SCIENTIST or type == human_type.ICEBERG or type == human_type.RACIST:
+        temperature += 1
+        ui.set_temperature(temperature)
+
+func on_progress(type: human_type):
+    
+    print("on progress ", type)
+    
+    if type == human_type.ICEBERG or type == human_type.MAGICIAN:
+        temperature = clamp(temperature - 1, 15, 999) 
+        ui.set_temperature(temperature)

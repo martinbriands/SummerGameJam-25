@@ -2,6 +2,8 @@ extends Node3D
 
 class_name Human
 
+var hexagon: Hexagon
+
 func _on_static_body_3d_area_entered(area: Area3D) -> void:
     if area.name == "ShockwaveCollisionSphere":
         hit_by_water()

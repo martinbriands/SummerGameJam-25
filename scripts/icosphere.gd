@@ -11,6 +11,7 @@ static var instance: IcoSphere
 @export var racist_scene : PackedScene
 @export var boat_scene : PackedScene
 @export var plane_scene : PackedScene
+@export var iceberg_scene : PackedScene
 @export var heat_map: Sprite2D
 @export var sea_level: SeaLevel
 
@@ -48,6 +49,8 @@ func _ready():
         hexagon.apply_bounds(bounds_x, bounds_y, bounds_z, image_data)
         
         hexagons.append(hexagon)
+    
+    $Spawner.init()
     
     #create_array_mesh()
 
@@ -88,16 +91,17 @@ func get_face_height(pos: Vector3) -> float:
     return float(color.r) / 10
     
 func _process(delta):
+    pass
     #if sea_level.height == 0:
     #    return
     
-    if spawn_timer >= GameRules.instance.human_spawn_delay:
-        spawn_timer = 0
-                
-        if humans.size() < GameRules.instance.max_humans:
-            spawn_human()
-    
-    spawn_timer = clampf(spawn_timer + delta, 0, GameRules.instance.human_spawn_delay)
+    #if spawn_timer >= GameRules.instance.human_spawn_delay:
+        #spawn_timer = 0
+                #
+        #if humans.size() < GameRules.instance.max_humans:
+            #spawn_human()
+    #
+    #spawn_timer = clampf(spawn_timer + delta, 0, GameRules.instance.human_spawn_delay)
 
 func spawn_human():
     var hexagon = hexagons.pick_random() as Hexagon
@@ -114,13 +118,16 @@ func spawn_human():
     #if !hexagon.can_spawn_human():
         #return
     
-    var land_types = [human_type.HUMAN, human_type.MAGICIAN, human_type.SCIENTIST, human_type.RACIST]
+    var land_types = [human_type.MAGICIAN, human_type.SCIENTIST, human_type.RACIST]
     var vehicle_types = [human_type.BOAT, human_type.PLANE]
     
     #var type = land_types.pick_random()
     var type = land_types.pick_random()
     if !hexagon.can_spawn_human():
         type = vehicle_types.pick_random()
+        
+        if hexagon.position.z > 0.4 or hexagon.position.z < -0.4:
+            type = human_type.ICEBERG
 
     var human = instantiate_human(type)
     
@@ -140,7 +147,8 @@ enum human_type
     SCIENTIST = 2,
     RACIST = 3,
     BOAT = 4,
-    PLANE = 5
+    PLANE = 5,
+    ICEBERG = 6
 }
 
 func instantiate_human(type: human_type) -> Node3D:                
@@ -162,57 +170,26 @@ func instantiate_human(type: human_type) -> Node3D:
             return boat_scene.instantiate() as Node3D
         human_type.PLANE:
             return plane_scene.instantiate() as Node3D
-
+        human_type.ICEBERG:
+            return iceberg_scene.instantiate() as Node3D
     
     return null
 
-func _on_sea_level_sea_level_rise(sea_level: int):
-    print("sea level has risen ", sea_level)
-    
-    for hexagon in hexagons:
-        if sea_level >= hexagon.layer:
-            if hexagon.human == null:
-                continue
-            kill_human(hexagon.human)
-            hexagon.human = null
-
 func kill_human(human: Human):  
-    var type = get_human_type(human)
-    
-    if type <= human_type.RACIST:
-        human_types[type] -= 1
-       
-    humans.erase(human)
-    human.queue_free()
-            
-    print("killed a human ", type)
-    UI.instance.set_human_count(humans.size(), human_types)
-    GameRules.instance.on_mayhem(type)
-
-#func evolve_human(human: Human):  
-    #print("evolving a human")
-    #var h
-    #for hexagon in hexagons:
-        #if hexagon.human == human:
-            #h = hexagon
-    #
-    #if h == null:
-        #print("evolution failed")
-        #return
-    #
+    $Spawner.kill(human)
     #var type = get_human_type(human)
-    #human_types[type] -= 1
-       #
+    
+    #if type <= human_type.RACIST:
+        #human_types[type] -= 1
+        
+    
+       
     #humans.erase(human)
     #human.queue_free()
-    #
-    #var evolved_human = instantiate_human(true)
-    #h.spawn_human(evolved_human)
-    #humans.append(evolved_human)
-                #
-    #print("evolved a human")
+            
     #UI.instance.set_human_count(humans.size(), human_types)
-    
+    #GameRules.instance.on_mayhem(type)
+
 func get_human_type(human: Human) -> human_type:
     if human is Magician:
         return human_type.MAGICIAN
@@ -220,6 +197,12 @@ func get_human_type(human: Human) -> human_type:
         return human_type.SCIENTIST
     if human is Racist:
         return human_type.RACIST
+    if human is Boat:
+        return human_type.BOAT
+    if human is Airplane:
+        return human_type.PLANE
+    if human is Iceberg:
+        return human_type.ICEBERG
     
     return human_type.HUMAN
     

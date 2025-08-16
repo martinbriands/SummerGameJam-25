@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://dy4kbb3we0n7y"]
+
+[ext_resource type="Script" uid="uid://dr3fotighkxs1" path="res://scripts/iceberg.gd" id="1_m4wbl"]
+[ext_resource type="Texture2D" uid="uid://2wdr40d1krey" path="res://assets/icons8-utilisateur-96.png" id="2_a74ct"]
+[ext_resource type="PackedScene" uid="uid://b7opvqoc6o3xf" path="res://scenes/debris_particle.tscn" id="3_a74ct"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_swaxu"]
+radius = 0.075
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m4wbl"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m4wbl"]
+material = SubResource("StandardMaterial3D_m4wbl")
+top_radius = 0.1
+bottom_radius = 0.15
+height = 0.2
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a74ct"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a74ct"]
+material = SubResource("StandardMaterial3D_a74ct")
+top_radius = 0.05
+bottom_radius = 0.075
+height = 0.1
+radial_segments = 6
+
+[node name="Iceberg" type="Node3D"]
+script = ExtResource("1_m4wbl")
+progress_delay = 30
+shake_magnitude = 0.01
+debris_scene = ExtResource("3_a74ct")
+max_hp = 3
+
+[node name="Parent" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="Area3D" parent="Parent"]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parent/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.032623)
+shape = SubResource("SphereShape3D_swaxu")
+
+[node name="Sprite3D" type="Sprite3D" parent="Parent"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0.05)
+visible = false
+billboard = 1
+texture = ExtResource("2_a74ct")
+
+[node name="Node3D" type="Node3D" parent="Parent"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parent/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.000351124)
+mesh = SubResource("CylinderMesh_m4wbl")
+skeleton = NodePath("../../root/@EditorNode@21272/@Panel@14/@VBoxContainer@15/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@26/DockVSplitCenter/@VSplitContainer@54/@VBoxContainer@55/@EditorMainScreen@102/MainScreen/@CanvasItemEditor@11482/@VSplitContainer@11134/@HSplitContainer@11136/@HSplitContainer@11138/@Control@11139/@SubViewportContainer@11140/@SubViewport@11141/Iceberg/Parent")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Parent/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0155229, 0.00957102, 0.13667)
+mesh = SubResource("CylinderMesh_a74ct")
+skeleton = NodePath("../../root/@EditorNode@21272/@Panel@14/@VBoxContainer@15/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@26/DockVSplitCenter/@VSplitContainer@54/@VBoxContainer@55/@EditorMainScreen@102/MainScreen/@CanvasItemEditor@11482/@VSplitContainer@11134/@HSplitContainer@11136/@HSplitContainer@11138/@Control@11139/@SubViewportContainer@11140/@SubViewport@11141/Iceberg/Parent")
+
+[connection signal="area_entered" from="Parent/StaticBody3D" to="." method="_on_static_body_3d_area_entered"]
+[connection signal="input_event" from="Parent/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

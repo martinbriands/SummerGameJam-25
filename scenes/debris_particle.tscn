@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7opvqoc6o3xf"]
+
+[sub_resource type="Curve" id="Curve_m4wbl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.383178, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.625827, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6mo6b"]
+curve = SubResource("Curve_m4wbl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a74ct"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 0.5
+initial_velocity_max = 0.75
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_6mo6b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4se3"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xvee8"]
+material = SubResource("StandardMaterial3D_t4se3")
+top_radius = 0.05
+bottom_radius = 0.0
+height = 1.0
+
+[node name="Debris" type="GPUParticles3D"]
+emitting = false
+amount = 24
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_a74ct")
+draw_pass_1 = SubResource("CylinderMesh_xvee8")

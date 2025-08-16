@@ -1,5 +1,7 @@
 extends Human
 
+class_name Boat
+
 @export var boat_speed: float
 
 func _process(delta: float) -> void:
@@ -7,10 +9,11 @@ func _process(delta: float) -> void:
     rotate_object_local(Vector3.UP, boat_speed * delta)
     
     if is_crashing:
-        
         var crash_speed = lerp(0.0, 0.1, crashing_timer)
         crashing_timer += delta
         $Parent.position.z -= delta * crash_speed
+    else:
+        $Parent.position.z = IcoSphere.instance.sea_level.scale.x * 0.5
     
 func _ready() -> void:
     var origin = ($Parent.global_position as Vector3).normalized()
@@ -19,7 +22,7 @@ func _ready() -> void:
 
 var crashing_timer: float
 var is_crashing: bool
-func hit_by_water():
+func hit_by_water():    
     if is_crashing:
         return
         

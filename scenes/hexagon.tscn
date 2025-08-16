@@ -13,7 +13,7 @@ backlight = Color(0.552956, 0.552956, 0.552956, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_11ygp"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_8n88i")
-radius = 0.055
+radius = 0.06
 height = 0.2
 radial_segments = 16
 rings = 4
@@ -46,7 +46,7 @@ ice_speed = 0.25
 max_health = 5
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.56034e-25, 3.98423e-09, -0.0911486)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1)
 mesh = SubResource("CapsuleMesh_11ygp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Mesh"]

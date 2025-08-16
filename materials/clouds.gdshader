@@ -3,6 +3,8 @@ shader_type spatial;
 uniform sampler2D noise;
 uniform sampler2D noise2;
 
+uniform vec3 color : source_color;
+
 void vertex() {
 	// Called for every vertex the material is visible on.
     //VERTEX += NORMAL * sin(TIME + UV.x * UV.y) / 100.0;

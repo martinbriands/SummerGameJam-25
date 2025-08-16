@@ -18,6 +18,7 @@ uniform float oil_spill_timers[10];
 varying float oil;
 
 uniform float oil_time = 5.0;
+uniform vec3 color : source_color;
 
 //0.41132998395924 0.34367026670768
 //uniform vec2 center = vec2(0.58867001604076, 0.65632973329232);
@@ -59,6 +60,8 @@ void fragment() {
 	// Called for every pixel the material is visible on.
 
     ALBEDO = texture(SCREEN_TEXTURE, UV * texture_scale + vec2(TIME * scroll_speed.x, TIME * scroll_speed.y)).rgb;
+
+    ALBEDO *= color;
 
     if (oil > 0.0)
     {

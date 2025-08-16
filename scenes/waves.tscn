@@ -29,6 +29,7 @@ shader_parameter/scroll_speed = Vector2(0, 0)
 shader_parameter/oil_spills = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/oil_spill_timers = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/oil_time = 5.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_gamc8"]
 material = SubResource("ShaderMaterial_56rt2")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://citckpmilhuf8"]
+[gd_scene load_steps=60 format=4 uid="uid://citckpmilhuf8"]
 
 [ext_resource type="Texture2D" uid="uid://cpdqcgoo7lpw2" path="res://assets/2999-diffuse.jpg" id="1_78tbb"]
 [ext_resource type="Script" uid="uid://dj6k8q8q0swts" path="res://scripts/camera_controller.gd" id="2_a71sl"]
@@ -19,10 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://drrpcn50w0xd4" path="res://assets/heatmap_earth.png" id="12_mqt7q"]
 [ext_resource type="Texture2D" uid="uid://bfctlgesgkbaa" path="res://assets/thermometer_front.png" id="12_ru6c5"]
 [ext_resource type="PackedScene" uid="uid://b86wxvre05vas" path="res://scenes/props/plane.tscn" id="12_whrj7"]
+[ext_resource type="PackedScene" uid="uid://dy4kbb3we0n7y" path="res://scenes/props/iceberg.tscn" id="15_mmr4a"]
 [ext_resource type="Shader" uid="uid://b5r3l5r12kqye" path="res://materials/clouds.gdshader" id="16_sk6si"]
 [ext_resource type="Script" uid="uid://bw1xa6k27fq4g" path="res://scenes/asteroid_manager.gd" id="18_f84b8"]
 [ext_resource type="Texture2D" uid="uid://be2fhamiaq26w" path="res://assets/BREAKING NEWS2.png" id="19_l7586"]
 [ext_resource type="PackedScene" uid="uid://d2le6hhhx6ben" path="res://scenes/asteroid.tscn" id="19_xvfhu"]
+[ext_resource type="Script" uid="uid://ctwne7thoa3h2" path="res://scripts/spawner.gd" id="20_el1ds"]
 [ext_resource type="Script" uid="uid://kwcgtfvtv4lx" path="res://scripts/scrollable_text.gd" id="20_g0e0t"]
 [ext_resource type="Texture2D" uid="uid://blha8rg07oae8" path="res://assets/weather/weather_2.png" id="21_pxv7e"]
 [ext_resource type="Texture2D" uid="uid://b7b37cmui47lr" path="res://assets/weather/weather_3.png" id="22_mmr4a"]
@@ -141,6 +143,7 @@ render_priority = 0
 shader = ExtResource("16_sk6si")
 shader_parameter/noise = SubResource("NoiseTexture2D_uon6c")
 shader_parameter/noise2 = SubResource("NoiseTexture2D_f84b8")
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_g0e0t"]
 material = SubResource("ShaderMaterial_sk6si")
@@ -208,6 +211,7 @@ scientist_scene = ExtResource("8_78tbb")
 racist_scene = ExtResource("9_mqt7q")
 boat_scene = ExtResource("11_mqt7q")
 plane_scene = ExtResource("12_whrj7")
+iceberg_scene = ExtResource("15_mmr4a")
 heat_map = NodePath("HeatMap")
 sea_level = NodePath("SeaLevel")
 
@@ -240,6 +244,27 @@ shape = SubResource("SphereShape3D_whrj7")
 [node name="Clouds" type="MeshInstance3D" parent="IcoSphere"]
 transform = Transform3D(6.08345e-09, 4.3286e-08, 1, 0.990268, -0.139173, 0, 0.139173, 0.990268, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("SphereMesh_g0e0t")
+
+[node name="Spawner" type="Node3D" parent="IcoSphere"]
+script = ExtResource("20_el1ds")
+magician_scene = ExtResource("7_gsacl")
+magician_max = 10
+magician_spawn_rate = 5.0
+racist_scene = ExtResource("9_mqt7q")
+racist_max = 10
+racist_spawn_rate = 1.0
+iceberg_scene = ExtResource("15_mmr4a")
+iceberg_max = 10
+iceberg_spawn_rate = 2.0
+scientist_scene = ExtResource("8_78tbb")
+scientist_max = 25
+scientist_spawn_rate = 2.5
+boat_scene = ExtResource("11_mqt7q")
+boat_max = 10
+boat_spawn_rate = 2.0
+airplane_scene = ExtResource("12_whrj7")
+airplane_max = 5
+airplane_spawn_rate = 5.0
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -410,12 +435,13 @@ speed = -50.0
 [node name="GameRules" type="Node" parent="."]
 script = ExtResource("11_5ukjf")
 max_humans_curve = SubResource("Curve_4se8r")
-human_spawn_delay = 1.0
+human_spawn_delay = 0.1
 human_temperature_impact = 0.1
 iceberg_temperature_impact = 10.0
 iceberg_respawn_delay = 10.0
-racist_lifetime = 10.0
+racist_lifetime = 999.0
+max_sea_level = 6
 
-[connection signal="sea_level_rise" from="IcoSphere/SeaLevel" to="IcoSphere" method="_on_sea_level_sea_level_rise"]
+[connection signal="sea_level_rise" from="IcoSphere/SeaLevel" to="IcoSphere/Spawner" method="_on_sea_level_rise"]
 [connection signal="input_event" from="IcoSphere/SeaLevel/ShockwaveCollisionSphere" to="IcoSphere/SeaLevel" method="_on_shockwave_collision_sphere_input_event"]
 [connection signal="input_event" from="IcoSphere/SeaLevel/WaterCollisionSphere" to="IcoSphere/SeaLevel" method="_on_area_3d_input_event"]

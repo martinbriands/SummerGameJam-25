@@ -55,6 +55,8 @@ func _process(delta):
         var lerp = lerpf(startingHeight, targetHeight, t / sea_level_change_speed)
         scale = Vector3(lerp, lerp, lerp)
         
+        print(scale)
+        
         if t == sea_level_change_speed:
             risen()
             
@@ -95,9 +97,9 @@ func _process(delta):
     mesh.material.set_shader_parameter("oil_spill_timers", oil_spill_timers)
 
 func risen():
+    pass
     sea_level_rise.emit(height)
-    UI.instance.set_water_level(height)
-
+    #UI.instance.set_water_level(height)
 
 var shockwave_intensity_value: float = 0
 @export var shockwave_intensity: float
@@ -132,11 +134,11 @@ func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
                 
         if result:
             on_water_clicked(result.position / 10, position)
+    
+    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.is_pressed():
+        rise()
 
 func create_oil_spill(pos: Vector3):
-    
-    print("oil spill ", pos)
-    
     var oil_spill = OilSpill.new()
     oil_spill.position = pos
     oil_spill.time = 5

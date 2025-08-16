@@ -24,8 +24,6 @@ var sea_level: SeaLevel
 
 func _ready() -> void:
     sea_level = (get_parent() as IcoSphere).sea_level
-    sea_level.sea_level_rise.connect(_on_sea_level_rise)
-
 
 func set_hexagon(parent: Node3D, pos: Vector3):
     position = pos
@@ -44,16 +42,14 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     layer = color_to_enum(color)
     set_color(color)
     
-    if layer == layers.WHITE:
-        current_health = max_health
-    
     origin = position
     normal = (origin - parent_position).normalized()
     
-    if layer != layers.WHITE:
-        position += layer * normal / 60
-    else:
-        _on_sea_level_rise(0)
+    if layer == layers.BLACK:
+        $Mesh.visible = false
+    
+    var targetHeight = 1 + layer * 0.04
+    $Mesh.position.z = targetHeight * 0.5 - 0.6
         
     
 func set_color(color: Color):
@@ -87,11 +83,12 @@ static func color_to_enum(color: Color):
     return layers.WHITE
     
 var human: Node3D
-func spawn_human(humanNode: Node3D):
-    human = humanNode
-    add_child(human)
+func spawn_human(humanNode: Node3D):    
+    add_child(humanNode)
     
+    human = humanNode
     human.look_at(parent_position)
+    human.hexagon = self
     #human.position += get_global_transform_interpolated().basis.z.normalized() * 0.025
 
 var hovering: bool
@@ -100,7 +97,7 @@ var pressed: bool
 var ice_scale: float = 1.0
 @export var ice_speed: float
 @export var max_health: int
-
+\
 var current_health
 
 func _input(event):
@@ -163,9 +160,6 @@ func can_spawn_human():
     
     return layer != layers.BLACK and layer != layers.WHITE
 
-func _on_sea_level_rise(height: int):
-    if layer == layers.WHITE:
-        position = origin + (height+2) * normal / 60
 
     
         
