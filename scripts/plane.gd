@@ -19,9 +19,11 @@ func hit_by_water():
         return
         
     is_dying = true
+    
+    explode()
             
-    IcoSphere.instance.sea_level.on_water_clicked($Parent.global_position / 10, Vector3.ZERO)
-    await get_tree().create_timer(1).timeout
+    #IcoSphere.instance.sea_level.on_water_clicked($Parent.global_position / 10, Vector3.ZERO)
+    await get_tree().create_timer(2).timeout
     IcoSphere.instance.kill_human(self)
     
 func hit_by_land(area: Area3D):
@@ -90,8 +92,14 @@ var lift_off_timer: float
  
 func _on_static_body_3d_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
     if event is InputEventMouseButton and event.is_pressed() and !is_crashing:
-        is_crashing = true
-        crashing_timer = 0
-        is_lifting_off = false
+        crash()
+
+func crash():
+    if is_crashing:
+        return
+        
+    is_crashing = true
+    crashing_timer = 0
+    is_lifting_off = false
     
     

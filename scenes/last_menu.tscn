@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://meqb1l1r8mr1"]
+
+[ext_resource type="Script" uid="uid://d2q4ew2m8uj1e" path="res://scripts/last_menu.gd" id="1_ive7d"]
+
+[node name="LastMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ive7d")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -304.0
+offset_right = -10.0
+offset_bottom = -254.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "PLAY AGAIN"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -304.0
+offset_right = 210.0
+offset_bottom = -254.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "QUIT"
+
+[node name="Text" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 500.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "Earth was cleansed in 00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

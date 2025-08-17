@@ -48,8 +48,8 @@ func apply_bounds(bounds_x: Vector2, bounds_y: Vector2, bounds_z: Vector2, data:
     if layer == layers.BLACK:
         $Mesh.visible = false
     
-    var targetHeight = 1 + layer * 0.04
-    $Mesh.position.z = targetHeight * 0.5 - 0.6
+    var targetHeight = 1 + layer * 0.04    
+    position = targetHeight * 0.5 * basis.z
         
     
 func set_color(color: Color):
@@ -63,6 +63,7 @@ func set_color(color: Color):
         color = gradient.sample((float(layer) - 1) / layers.size())
     
     mesh.mesh.material.albedo_color = color
+    mesh.mesh.material.emission = color
     
 static func color_to_enum(color: Color):    
     if color == Color.BLACK:
@@ -89,7 +90,6 @@ func spawn_human(humanNode: Node3D):
     human = humanNode
     human.look_at(parent_position)
     human.hexagon = self
-    #human.position += get_global_transform_interpolated().basis.z.normalized() * 0.025
 
 var hovering: bool
 var pressed: bool
@@ -126,22 +126,7 @@ func tile_clicked():
     else:
         GameRules.instance.last_clicked_tile = self
     
-    #if layer == layers.WHITE and current_health != 0:
-        #current_health = clampi(current_health - 1, 0, max_health)
-        #
-        #var value = (float(current_health) / max_health)
-        #set_color(Color(value, value, value))
-        #
-        #if current_health == 0:
-            #ice_scale = 0
-            #var earth = get_parent() as IcoSphere
-            #earth.sea_level.destory_ice()
-            #set_color(Color.WHITE)
-    
     var sea_level = (get_parent() as IcoSphere).sea_level
-
-    #if sea_level.height >= layer:
-        #sea_level.on_water_clicked(position, parent_position)
     
 func _process(delta):
     if layer == layers.WHITE:

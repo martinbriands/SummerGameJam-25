@@ -4,24 +4,6 @@ extends Node3D
 
 var longlats = []
 
-#func _ready():
-    #var points = random_on_sphere(500, 0.5)
-    
-    #var points = random_mercator_sphere(0.5)
-    #
-    #var i = 0
-    #for point in points:
-        #var b = Bullet.instantiate() as Node3D
-        #add_child(b)
-        #b.position = point
-        #b.look_at(position)
-            
-        #b.position += randi_range(-2, 6) * (b.position - position).normalized() / 75
-            
-       # b.rotate_object_local(Vector3.FORWARD, randf())
-        
-      #  i = i + 1
-
     
 func random_on_sphere(num_points: int, radius: float) -> Array:
     var points = []

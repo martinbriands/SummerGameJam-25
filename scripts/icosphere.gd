@@ -5,26 +5,14 @@ class_name IcoSphere
 static var instance: IcoSphere
 
 @export var plate : PackedScene
-@export var human_scene : PackedScene
-@export var magician_scene : PackedScene
-@export var scientist_scene : PackedScene
-@export var racist_scene : PackedScene
-@export var boat_scene : PackedScene
-@export var plane_scene : PackedScene
-@export var iceberg_scene : PackedScene
 @export var heat_map: Sprite2D
 @export var sea_level: SeaLevel
 
 var hexagons: Array[Hexagon]
-var humans: Array[Node3D]
 
 var bounds_x: Vector2 = Vector2(-0.5, 0.5)
 var bounds_y: Vector2 = Vector2(-0.5, 0.5)
 var bounds_z: Vector2 = Vector2(-0.5, 0.5)
-
-var spawn_timer: float = 0
-
-var human_types: Vector4i
 
 var image_data: Image
 
@@ -38,7 +26,6 @@ func _ready():
 
     for face in faces:
         if not faces_no_duplicates.has(face):
-           # faces_no_duplicates.append(face)
             faces_no_duplicates.append(face)
     
     for face in faces_no_duplicates:
@@ -51,33 +38,6 @@ func _ready():
         hexagons.append(hexagon)
     
     $Spawner.init()
-    
-    #create_array_mesh()
-
-#func create_array_mesh():
-    #var arraymesh = ($ArrayMesh as MeshInstance3D).mesh as ArrayMesh
-    #var ico_sphere_mesh = mesh as IcoSphereMesh
-    #
-    #var vertices = PackedVector3Array()
-    #
-    #for element in mesh.get_faces():
-        #vertices.push_back(element + element.normalized() * get_face_height(element))
-        ##vertices.push_back(element )
-        #
-    #var uvs = PackedVector2Array()
-    #uvs.append(Vector2(0, 0)) 
-    #uvs.append(Vector2(1, 0))
-    #uvs.append(Vector2(0,1))
-    #uvs.append(Vector2(1,1))
-    #
-    #var arr_mesh = ArrayMesh.new()
-    #var arrays = []
-    #arrays.resize(Mesh.ARRAY_MAX)
-    #arrays[Mesh.ARRAY_VERTEX] = vertices
-    ##arrays[Mesh.ARRAY_TEX_UV] = uvs
-    #
-    #arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-
 
 func get_face_height(pos: Vector3) -> float:
     var lat = rad_to_deg(atan2(pos.z,sqrt(pos.x*pos.x+pos.y*pos.y)))
@@ -92,119 +52,8 @@ func get_face_height(pos: Vector3) -> float:
     
 func _process(delta):
     pass
-    #if sea_level.height == 0:
-    #    return
-    
-    #if spawn_timer >= GameRules.instance.human_spawn_delay:
-        #spawn_timer = 0
-                #
-        #if humans.size() < GameRules.instance.max_humans:
-            #spawn_human()
-    #
-    #spawn_timer = clampf(spawn_timer + delta, 0, GameRules.instance.human_spawn_delay)
-
-func spawn_human():
-    var hexagon = hexagons.pick_random() as Hexagon
-    
-    if hexagon == null:
-        return
-    
-    #var loop_count = 0
-    
-    #while !hexagon.can_spawn_human() && loop_count < 100:
-        #hexagon = hexagons.pick_random()
-        #loop_count = loop_count + 1
-    
-    #if !hexagon.can_spawn_human():
-        #return
-    
-    var land_types = [human_type.MAGICIAN, human_type.SCIENTIST, human_type.RACIST]
-    var vehicle_types = [human_type.BOAT, human_type.PLANE]
-    
-    #var type = land_types.pick_random()
-    var type = land_types.pick_random()
-    if !hexagon.can_spawn_human():
-        type = vehicle_types.pick_random()
-        
-        if hexagon.position.z > 0.4 or hexagon.position.z < -0.4:
-            type = human_type.ICEBERG
-
-    var human = instantiate_human(type)
-    
-    if human == null:
-        return
-    
-    hexagon.spawn_human(human)
-        
-    humans.append(human)
-    
-    UI.instance.set_human_count(humans.size(), human_types)
-
-enum human_type 
-{
-    HUMAN = 0,
-    MAGICIAN = 1,
-    SCIENTIST = 2,
-    RACIST = 3,
-    BOAT = 4,
-    PLANE = 5,
-    ICEBERG = 6
-}
-
-func instantiate_human(type: human_type) -> Node3D:                
-    match type:
-        human_type.HUMAN:
-            human_types[human_type.HUMAN] += 1
-            return human_scene.instantiate() as Node3D
-        human_type.MAGICIAN:
-            human_types[human_type.MAGICIAN] += 1
-            return magician_scene.instantiate() as Node3D
-        human_type.SCIENTIST:
-            human_types[human_type.SCIENTIST] += 1
-            return scientist_scene.instantiate() as Node3D
-        human_type.RACIST:
-            human_types[human_type.RACIST] += 1
-            return racist_scene.instantiate() as Node3D
-        human_type.BOAT:
-            #human_types[human_type.RACIST] += 1
-            return boat_scene.instantiate() as Node3D
-        human_type.PLANE:
-            return plane_scene.instantiate() as Node3D
-        human_type.ICEBERG:
-            return iceberg_scene.instantiate() as Node3D
-    
-    return null
 
 func kill_human(human: Human):  
-    $Spawner.kill(human)
-    #var type = get_human_type(human)
-    
-    #if type <= human_type.RACIST:
-        #human_types[type] -= 1
-        
-    
-       
-    #humans.erase(human)
-    #human.queue_free()
-            
-    #UI.instance.set_human_count(humans.size(), human_types)
-    #GameRules.instance.on_mayhem(type)
-
-func get_human_type(human: Human) -> human_type:
-    if human is Magician:
-        return human_type.MAGICIAN
-    if human is Scientist:
-        return human_type.SCIENTIST
-    if human is Racist:
-        return human_type.RACIST
-    if human is Boat:
-        return human_type.BOAT
-    if human is Airplane:
-        return human_type.PLANE
-    if human is Iceberg:
-        return human_type.ICEBERG
-    
-    return human_type.HUMAN
-    
+    $Spawner.kill(human, true)
     
             

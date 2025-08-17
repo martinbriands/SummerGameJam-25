@@ -55,8 +55,6 @@ func _process(delta):
         var lerp = lerpf(startingHeight, targetHeight, t / sea_level_change_speed)
         scale = Vector3(lerp, lerp, lerp)
         
-        print(scale)
-        
         if t == sea_level_change_speed:
             risen()
             
@@ -83,7 +81,6 @@ func _process(delta):
     var index = 0
     
     while oil_spills.size() > 10:
-        print("poppop")
         oil_spills.pop_front()
     
     for oil_spill in oil_spills:
@@ -117,13 +114,24 @@ func on_water_clicked(tile_pos: Vector3, earth_center: Vector3):
     mesh.material.set_shader_parameter("center_3D", tile_pos)
     mesh.material.set_shader_parameter("intensity", shockwave_intensity_value)
     mesh.material.set_shader_parameter("time", time)
-    
+        
     $ShockwaveCollisionSphere.position = tile_pos
+    
+    GameRules.instance.tsunami_time = GameRules.instance.tsunami_delay
 
 @onready var camera = get_viewport().get_camera_3d()
 
+var clicked: bool
+var scrolled: bool
+
 func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
-    if event is InputEventMouseButton and !event.is_pressed():
+    if GameRules.instance.tsunami_time > 0:
+        return
+
+    if event is InputEventMouseButton and event.is_pressed():
+        clicked = true
+        scrolled = false
+    if event is InputEventMouseButton and !event.is_pressed() && !scrolled:
         var from = camera.project_ray_origin(event.position)
         var to = from + camera.project_ray_normal(event.position) * 1000
         
@@ -144,3 +152,6 @@ func create_oil_spill(pos: Vector3):
     oil_spill.time = 5
     
     oil_spills.append(oil_spill)
+
+func _on_camera_arm_scrolled() -> void:
+    scrolled = true

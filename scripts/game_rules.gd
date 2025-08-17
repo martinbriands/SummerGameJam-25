@@ -18,26 +18,17 @@ enum human_type
 func _ready() -> void:
     instance = self
     
-    progress_bar = UI.instance.get_node('Temperature') as TextureProgressBar
     world = IcoSphere.instance
     sea_level = world.sea_level
-    sea_level.iceberg_destroyed.connect(_on_iceberg_destroyed)
     
     ui = UI.instance
     
     ui.set_temperature(temperature)
     
-@export var max_humans_curve: Curve
-var max_humans: float = 100
-@export var human_spawn_delay: float
-@export var human_temperature_impact: float
-@export var iceberg_temperature_impact: float
-@export var iceberg_respawn_delay: float
 @export var racist_lifetime: float
-@export var human_evolution_chance: float
 @export var max_sea_level: int
+@export var sea_level_curve: Curve
 
-var progress_bar: TextureProgressBar
 var world: IcoSphere
 var sea_level: SeaLevel
 var ui: UI
@@ -47,55 +38,53 @@ var human_impact: float = 0
 
 var last_clicked_tile: Hexagon
 
+var won: bool
+
+var time = 0
+var tsunami_time = 0
+var meteor_time = 0
+
+@export var tsunami_delay: int = 5
+@export var meteor_delay: int = 10
+
 func _process(delta: float) -> void:
-    pass
-    #if sea_level.height == 0:
-    #    return
+    tsunami_time = clamp(tsunami_time - delta, 0, tsunami_delay)
+    meteor_time = clamp(meteor_time - delta, 0, meteor_delay)
     
-    #process_humans()
+    if sea_level.height >= max_sea_level:
+        return
     
-    #progress = clamp(progress - human_impact * delta, 0, 100)
+    var desired_sea_level = floor(sea_level_curve.sample(temperature))
     
-    #if progress == 0:
-        #sea_level.sink()
-        #progress = 75
-        
-    #progress_bar.value = progress
-    
-    #max_humans = max_humans_curve.sample(sea_level.height + 0.01)
-
-func _on_iceberg_destroyed():
-    progress = clamp(progress + iceberg_temperature_impact, 0, 100)
-    
-    if progress == 100:
+    if desired_sea_level > sea_level.height:
         sea_level.rise()
-        progress = 25
+    elif desired_sea_level < sea_level.height:
+        sea_level.sink()
     
-    progress_bar.value = progress
-
-func process_humans():
-    var magicians = world.human_types[human_type.MAGICIAN]
-    var racists = world.human_types[human_type.RACIST]
-    var scientists = world.human_types[human_type.SCIENTIST]
-    
-    human_impact = magicians - racists
-        
-    ui.set_human_impact(human_impact * human_temperature_impact)
+    time += delta
     
 var temperature = 15
 
 func on_mayhem(type: human_type):
-    
-    print("on mayhem ", type)
-    
-    if type == human_type.BOAT or type == human_type.PLANE or type == human_type.SCIENTIST or type == human_type.ICEBERG or type == human_type.RACIST:
+    #print("on mayhem ", type)
+    if type == human_type.BOAT or type == human_type.PLANE or type == human_type.ICEBERG or type == human_type.RACIST:
         temperature += 1
+        ui.set_temperature(temperature)
+        
+    if type == human_type.SCIENTIST:
+        temperature += 0.1
         ui.set_temperature(temperature)
 
 func on_progress(type: human_type):
-    
-    print("on progress ", type)
-    
+    #print("on progress ", type)
     if type == human_type.ICEBERG or type == human_type.MAGICIAN:
         temperature = clamp(temperature - 1, 15, 999) 
         ui.set_temperature(temperature)
+
+func win():
+    won = true
+    
+    var last_menu = load("res://scenes/last_menu.tscn").instantiate()
+    add_child(last_menu)
+    
+    last_menu.set_text(time)

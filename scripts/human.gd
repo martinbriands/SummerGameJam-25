@@ -29,5 +29,5 @@ func _process(delta: float) -> void:
         #IcoSphere.instance.evolve_human(self)
 
 func _on_static_body_3d_body_entered(body: Node3D) -> void:
-    print(body.name)
+    pass
     

@@ -34,10 +34,7 @@ func hit_by_water():
     pass
     
 func hit_by_land():
-    moving = false
-    
-    print(($Explosion/Smoke.process_material as ParticleProcessMaterial).gravity)
-    
+    moving = false    
     $Explosion/Debris.emitting = true
     $Explosion/Fire.emitting = true
     $Explosion/Smoke.emitting = true

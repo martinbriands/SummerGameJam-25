@@ -26,12 +26,7 @@ var hp: int
 
 func _ready():
     origin = position
-    
-    print(origin)
-    
     origin.z = IcoSphere.instance.sea_level.scale.x * 0.5 - 0.5
-    
-    print(origin.z)
     position -= basis.z * 0.1
     
     hp = max_hp

@@ -5,6 +5,8 @@ var previousMousePos: Vector2
 
 @export var rotationSpeed: float
 
+signal scrolled 
+
 func _input(event):
     if event is InputEventMouseButton:
         if event.pressed:
@@ -22,6 +24,12 @@ func _input(event):
             rotate_object_local(Vector3.RIGHT, delta.y)
             
             previousMousePos = event.position
+            
+            scrolled.emit()
+
+func _process(delta: float) -> void:
+    if GameRules.instance.won:
+        $Camera3D.position.z += delta
 
             
 

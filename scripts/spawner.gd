@@ -49,6 +49,17 @@ func init():
     
 #region process
 func _process(delta):
+    if GameRules.instance.won:
+        return
+    
+    var sea_level = IcoSphere.instance.sea_level
+    if sea_level.height >= GameRules.instance.max_sea_level:
+        
+        if icebergs.size() == 0:
+            GameRules.instance.win()
+        
+        return
+        
     process_magician(delta)
     process_racist(delta)
     process_iceberg(delta)
@@ -226,7 +237,7 @@ func spawn_airplane():
     
 #endregion
 
-func kill(killed: Human):
+func kill(killed: Human, score: bool):
     var name = ""
     var type = GameRules.human_type.HUMAN
     
@@ -254,8 +265,9 @@ func kill(killed: Human):
         airplanes.erase(killed)
         name = "airplane"
         type = GameRules.human_type.PLANE
-        
-    GameRules.instance.on_mayhem(type)
+    
+    if score:
+        GameRules.instance.on_mayhem(type)
     if killed.hexagon != null:
         killed.hexagon.human = null
     killed.queue_free()
@@ -265,16 +277,23 @@ func kill(killed: Human):
 func _on_sea_level_rise(height):
     for magician in magicians:
         if magician.hexagon.layer <= height:
-            kill(magician)
+            kill(magician, false)
             _on_sea_level_rise(height)
             return
     for racist in racists:
         if racist.hexagon.layer <= height:
-            kill(racist)
+            kill(racist, false)
             _on_sea_level_rise(height)
             return
     for scientist in scientists:
         if scientist.hexagon.layer <= height:
-            kill(scientist)
+            kill(scientist, false)
             _on_sea_level_rise(height)
             return
+    
+    var sea_level = IcoSphere.instance.sea_level
+    if sea_level.height >= GameRules.instance.max_sea_level:
+        for boat in boats:
+            boat.hit_by_water()
+        for airplane in airplanes:
+            airplane.crash()
